@@ -1,0 +1,30 @@
+%section#top-header.bg-danger.py-2
+  .container
+    .row.align-items-center
+      .col-md-2
+        %h1
+          = link_to "Yep", "", class: 'text-white yep'
+      .col-md-7
+        %form.input-group
+          .input-group-append
+            .input-group-text.white-background.no-border-right.font-weight-bold.rounded-left Find
+          %input.form-control.no-blue-glow.no-border-left(type="text" placeholder="Restaurants")
+          .input-group-append
+            .input-group-text.white-background.no-border-right.font-weight-bold Near
+          %input.form-control.no-blue-glow.no-border-left(type="text" placeholder="Dublin")
+          %button.input-group-append.search-icon.px-4.rounded-right
+            %i.fa.fa-search
+      .col-md-3
+        .dropdown
+          %button.btn.btn-primary.dropdown-toggle(type="button" data-toggle="dropdown")
+            %span Toggle
+          .dropdown-menu
+            %a.dropdown-item(href="#") Link One
+            %a.dropdown-item(href="#") Link Two
+            %a.dropdown-item(href="#") Link Three
+            .dropdown-divider
+            %a.dropdown-item(href="#") Link Four
+
+        
+
+
