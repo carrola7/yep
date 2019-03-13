@@ -1,7 +1,7 @@
 body
   margin: 20px
   background-color: #fff
-  a
+  .deep-red
     color: #ae1d00
   section.content
     padding-bottom: 50px
@@ -16,11 +16,6 @@ body
     text-decoration: none !important
     font-size: 2rem
     font-family: 'Pacifico'
-
-  .search-icon
-    color: #fff;
-    background-color: #bd1f1f
-    border: none
   
   .white-background
     background-color: #fff !important
@@ -28,11 +23,39 @@ body
   .no-blue-glow
     outline: none
     box-shadow:none !important
-    border:1px solid #ccc !important
+    border:none !important
 
   .no-border-left
     border-left: none !important
 
   .no-border-right
     border-right: none !important
+
+  .no-border
+    border: none !important
+
+  .bg-custom-red
+    background-color: #bd1f1f
+    border: none;
+
+  .bg-custom-red:hover
+    background-color: #ac1e1c
+
+  .user-icon:hover, .user-icon:focus
+    background-color: #fff
+    z-index: 0 !important
+
+  .user-icon i
+    opacity: 0.3
+
+  .user-icon:hover + button
+    background-color: #ac1e1c
+
+  .fixed-width-1
+    width: 1rem !important
+
+  .no-padding-y
+    padding-top: 0 !important
+    padding-bottom: 0 !important
+
   

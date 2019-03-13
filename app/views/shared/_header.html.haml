@@ -7,23 +7,52 @@
       .col-md-7
         %form.input-group
           .input-group-append
-            .input-group-text.white-background.no-border-right.font-weight-bold.rounded-left Find
-          %input.form-control.no-blue-glow.no-border-left(type="text" placeholder="Restaurants")
+            .input-group-text.white-background.no-border.font-weight-bold.rounded-left Find
+          %input.form-control.no-blue-glow.no-border-left(type="text" placeholder="Business")
           .input-group-append
-            .input-group-text.white-background.no-border-right.font-weight-bold Near
+            .input-group-text.white-background.no-border.font-weight-bold Near
           %input.form-control.no-blue-glow.no-border-left(type="text" placeholder="Dublin")
-          %button.input-group-append.search-icon.px-4.rounded-right
+          %button.input-group-append.text-white.bg-custom-red.px-4.rounded-right.no-blue-glow
             %i.fa.fa-search
       .col-md-3
-        .dropdown
-          %button.btn.btn-primary.dropdown-toggle(type="button" data-toggle="dropdown")
-            %span Toggle
-          .dropdown-menu
-            %a.dropdown-item(href="#") Link One
-            %a.dropdown-item(href="#") Link Two
-            %a.dropdown-item(href="#") Link Three
-            .dropdown-divider
-            %a.dropdown-item(href="#") Link Four
+        .d-flex
+          %a.btn.bg-custom-red.px-3.my-2.bg-danger.text-white(href="#" data-toggle="tooltip" data-placement="bottom" title="See All Businesses")
+            %i.far.fa-building
+          %a.btn.bg-custom-red.px-3.my-2.bg-danger.text-white(href="#" data-toggle="tooltip" data-placement="bottom" title="See All Reviews")
+            %i.far.fa-star
+          .dropdown
+            .btn.btn-group(data-toggle="dropdown")
+              %button.btn.btn-light.no-blue-glow.user-icon(type="button")
+                %i.far.fa-user
+              %button.btn.text-white.bg-custom-red.dropdown-toggle.no-blue-glow.px-2(type="button")
+            .dropdown-menu
+              .d-flex
+                %a.user-icon.bg-light.d-block.p-2.ml-2.rounded.align-self-center(href="#")
+                  %i.far.fa-user.fa-3x
+                .p-2.mr-2
+                  %a.font-weight-bold(href="#") Adrian C.
+                  .font-weight-bold.small Swords, Co Dublin
+                  .d-flex
+                    .small
+                      %i.far.fa-building.text-warning
+                      0
+                    .small.ml-3
+                      %i.far.fa-star.text-warning
+                      0
+              .dropdown-divider
+              %a.dropdown-item.text-primary(href="#") 
+                %i.far.fa-user.text-secondary.mr-2.fixed-width-1.text-center
+                %span.small.font-weight-bold
+                  About Me
+              %a.dropdown-item.text-primary(href="#") 
+                %i.fas.fa-cog.text-secondary.mr-2.fixed-width-1.text-center 
+                %span.small.font-weight-bold
+                  Account Settings
+              .dropdown-divider
+              %a.dropdown-item.text-primary(href="#") Log Out
+
+%script
+  $('[data-toggle="tooltip"]').tooltip();
 
         
 
