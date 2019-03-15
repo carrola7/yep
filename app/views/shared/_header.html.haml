@@ -2,7 +2,7 @@
   .container
     .row.align-items-center
       .col-md-2
-        %h1
+        %h1.text-center
           = link_to "Yep", "", class: 'text-white yep'
       .col-md-7
         %form.input-group
@@ -15,7 +15,7 @@
           %button.input-group-append.text-white.bg-custom-red.px-4.rounded-right.no-blue-glow
             %i.fa.fa-search
       .col-md-3
-        .d-flex
+        .d-flex.justify-content-around
           %a.btn.bg-custom-red.px-3.my-2.bg-danger.text-white(href="#" data-toggle="tooltip" data-placement="bottom" title="See All Businesses")
             %i.far.fa-building
           %a.btn.bg-custom-red.px-3.my-2.bg-danger.text-white(href="#" data-toggle="tooltip" data-placement="bottom" title="See All Reviews")

@@ -1,6 +1,44 @@
 .container
   .row
-    .col-md-6
-      .bg-warning 
-    .d-none.d-md-block.col-md-6
-      %img.img-fluid.mt-5.pt-5(src="/images/frog.png")
+    .col-lg-6
+      .container
+        %h3.text-danger.font-weight-bold.text-center.mt-4 Sign Up For Yep
+        %h6.font-weight-bold.text-center.mb-3 Connect with great local businesses
+        %form
+          .form-row.mb-2
+            .col
+              %input.form-control(type="text" placeholder="First Name")
+            .col
+              %input.form-control(type="text" placeholder="Last Name") 
+          %input.form-control.mb-2(type="text" placeholder="Email")
+          %input.form-control.mb-2(type="password" placeholder="Password")
+          %input.form-control.mb-2(type="text" placeholder="City/Town")
+          %h6.font-weight-bold
+            Birthday
+            %span.font-weight-normal.text-muted.small Optional
+          .form-row
+            .col
+              %select.form-control
+                %option Day
+                %option 1
+                %option 2             
+            .col
+              %select.form-control
+                %option Month
+                %option Jan
+                %option Feb
+            .col
+              %select.form-control
+                %option Year
+                %option 2018
+                %option 1901
+          %button.btn.btn-block.btn-danger.my-4 Sign Up
+        %p.text-muted.small 
+          Already on Yep?
+          %span
+            %a(href="#") Log in
+            
+          
+
+    .d-none.d-lg-block.col-lg-6
+      %img.img-fluid.mt-5.pt-5(src="/images/city.png")
