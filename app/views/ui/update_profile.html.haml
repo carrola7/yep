@@ -1,0 +1,22 @@
+.container
+  .row.mt-5
+    .col-md-8
+      %h5.text-danger.font-weight-bold Update Your Profile
+      %hr
+      %form
+        .form-group
+          %label(for="first_name")
+            First Name
+            %small.font-italic.text-muted (required) 
+          %input.form-control.form-control-sm(type="text" id="first_name" value="Adrian")
+        .form-group
+          %label(for="last_name")
+            Last Name
+            %small.font-italic.text-muted (required) 
+          %input.form-control.form-control-sm(type="text" id="last_name" value="Carroll")
+        .form-group
+          %label(for="i_love")
+            I love...
+          %textarea.form-control.form-control-sm(id="i_love")
+        %button.btn.btn-danger Save Changes
+        %a.ml-2(href="#") Cancel

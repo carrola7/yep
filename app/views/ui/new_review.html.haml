@@ -1,0 +1,28 @@
+.container
+  .row.mt-5
+    .col-lg-8
+      %h4.text-secondary.font-weight-bold.mb-4 
+        %small.mr-1
+          Write a review for
+        %a(href="#") The Boxty House
+  .row
+    .col-lg-8
+      %form
+        .form-group
+          %label(for="rating") Rating
+          %select.form-control.text-danger(id="rating")
+            %option(value="5")
+              &#9733; &#9733; &#9733; &#9733; &#9733;
+            %option(value="4") 
+              &#9733; &#9733; &#9733; &#9733;
+            %option(value="3")
+              &#9733; &#9733; &#9733;
+            %option(value="2")
+              &#9733; &#9733;
+            %option(value="1")
+              &#9733;
+        .form-group
+          %label(for="review")Review
+          %textarea.form-control(id="review" rows="10" placeholder="Your review helps others learn about great local businesses.                                                                           Please don't review this business if you received a freebie for writing this review, or if you're connected in any way to the owner or employees.")
+        %button.btn.btn-danger Post Review
+             

@@ -1,0 +1,29 @@
+.container
+  .row.mt-5
+    .col-lg-8
+      %h4.text-secondary.font-weight-bold.mb-4 
+        %small.mr-1
+          Edit your review for
+        %a(href="#") The Boxty House
+  .row
+    .col-lg-8
+      %form
+        .form-group
+          %label(for="rating") Rating
+          %select.form-control.text-danger(id="rating")
+            %option(value="5")
+              &#9733; &#9733; &#9733; &#9733; &#9733;
+            %option(value="4") 
+              &#9733; &#9733; &#9733; &#9733;
+            %option(value="3")
+              &#9733; &#9733; &#9733;
+            %option(value="2")
+              &#9733; &#9733;
+            %option(value="1")
+              &#9733;
+        .form-group
+          %label(for="review")Review
+          %textarea.form-control(id="review" rows="10")
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa quasi odit nisi velit, minus tenetur soluta perspiciatis repellendus incidunt laborum reiciendis earum aperiam modi quisquam officiis explicabo quibusdam nesciunt itaque quidem! Laudantium aperiam, necessitatibus eos reprehenderit quas facilis alias deserunt. Aliquam, facilis id voluptas eos quas corporis ipsum in libero.
+        %button.btn.btn-danger Update Review
+             

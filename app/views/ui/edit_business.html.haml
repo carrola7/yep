@@ -1,0 +1,30 @@
+.container
+  .row.mt-5
+    .col-md-6
+      %h4.text-danger.font-weight-bold.mb-4 Edit Business Details
+      %form
+        .form-group
+          %label(for="name") Business Name
+          %input.form-control.form-control-sm(type="text" id="name" value="Boxty")
+        .form-group
+          %label(for="address_1") Address 1
+          %input.form-control.form-control-sm(type="text" id="address_1" value="Main St")
+        .form-group
+          %label(for="address_2") Address 2
+          %input.form-control.form-control-sm(type="text" id="address_2" value="Swords")
+        .form-group
+          %label(for="city") City
+          %input.form-control.form-control-sm(type="text" id="city" value="Dublin")
+        .form-group
+          %label(for="country") Country
+          %input.form-control.form-control-sm(type="text" id="country" value="Ireland")
+        .form-group
+          %label(for="phone") Country
+          %input.form-control.form-control-sm(type="text" id="phone" value="01-840400")
+        .form-group
+          %label(for="tags") 
+            Tags
+            %small.text-muted.ml-2 Enter up to three tags, seperated by a comma
+          %input.form-control.form-control-sm.mb-4(type="text" id="tags" value="Food, Drink, Restaurant")
+        %button.btn.btn-danger.mr-2 Submit Changes
+        %a(href="#") Cancel
