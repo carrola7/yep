@@ -10,7 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_16_084104) do
+ActiveRecord::Schema.define(version: 2019_03_18_054932) do
+
+  create_table "business_tags", force: :cascade do |t|
+    t.integer "business_id"
+    t.integer "tag_id"
+  end
+
+  create_table "businesses", force: :cascade do |t|
+    t.string "name"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "city"
+    t.string "country"
+    t.string "phone"
+    t.integer "user_id"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "rating"
+    t.text "body"
+    t.integer "business_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -19,9 +52,11 @@ ActiveRecord::Schema.define(version: 2019_03_16_084104) do
     t.string "last_name"
     t.string "city"
     t.string "loves"
-    t.date "birthday"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "birthday_d"
+    t.string "birthday_m"
+    t.integer "birthday_y"
   end
 
 end

@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-lg-6.px-5
+      .container
+        %h3.text-danger.font-weight-bold.text-center.mt-4 Log in to Yep
+        %h6.font-weight-bold.text-center.mb-4
+          New to Yep?
+          %span
+            = link_to "Sign up", register_path
+        = bootstrap_form_tag url: sessions_path do |f|
+          = f.text_field :email, hide_label: true,placeholder: "Email"
+          = f.password_field :password, hide_label: true, placeholder: "Password"
+          = f.button "Log in", class: "btn btn-block btn-danger my-4"
+        %p.text-muted.text-right.small 
+          New to Yep?
+          %span
+            = link_to "Sign up", register_path
+            
+    .d-none.d-lg-block.col-lg-6
+      %img.img-fluid.mt-5.pt-5(src="/images/city.png")
