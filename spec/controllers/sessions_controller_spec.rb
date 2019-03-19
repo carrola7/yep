@@ -44,4 +44,32 @@ describe SessionsController do
       end
     end
   end
+
+  describe "GET destroy" do
+    context "when user is logged in" do
+      let(:bob) { Fabricate(:user )}
+      before do
+        post :create, params: { email: bob.email, password: bob.password }
+      end
+      it "deletes the user_id from the session" do
+        get :destroy
+        expect(session[:user_id]).to be_nil
+      end
+      it "sets the flash message" do
+        get :destroy
+        expect(flash[:success]).to be_present
+      end
+      it "redirects to the home path" do
+        get :destroy
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context "when user is not logged in" do
+      it "does not set a flash message" do
+        get :destroy
+        expect(flash[:success]).to_not be_present
+      end
+    end
+  end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'User signs up' do
-  scenario 'with valid credentials' do
+  scenario 'with valid credentials shows the welcome message' do
     user = Fabricate.build(:user)
     visit register_path
 
@@ -18,7 +18,7 @@ feature 'User signs up' do
     expect(page).to have_content "Welcome, #{user.first_name}"
   end
 
-  scenario 'with invalid credentials' do
+  scenario 'with invalid credentials shows error messages' do
     user = Fabricate.build(:user)
     visit register_path
 

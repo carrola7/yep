@@ -15,4 +15,12 @@ class SessionsController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    if logged_in?
+      session.delete(:user_id)
+      flash[:success] = "You have successfully logged out"
+    end
+    redirect_to root_path
+  end
 end
