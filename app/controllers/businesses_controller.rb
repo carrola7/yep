@@ -1,5 +1,5 @@
 class BusinessesController < ApplicationController
-  before_action :require_user, only: [:create, :new, :edit]
+  before_action :require_user, only: [:create, :new, :edit, :update]
 
   def index
     @businesses = Business.all
@@ -25,6 +25,14 @@ class BusinessesController < ApplicationController
   end
 
   def update
+    @business = Business.find params[:id]
+    if @business.update(business_params)
+      flash[:success] = "Changes saved"
+      redirect_to(business_path @business)
+    else
+      flash.now[:danger] =  "One or more inputs are invalid, please address the errors."
+      render :edit
+    end
   end
 
   private

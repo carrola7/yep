@@ -59,16 +59,56 @@ describe BusinessesController do
   describe "PUT update" do
     context "with user not signed in" do
       before do
-        Fabricate(:user)
-        Fabricate(:business, user_id: User.first.id)
+        set_current_user
+        post :create, params: { business: Fabricate.attributes_for(:business) }
       end
       it_behaves_like "requires_signed_in_user" do
         let(:action) { put :update, params: { id: Business.first.id, business: Fabricate.attributes_for(:business)}}
       end
     end
-    context "with signed in user"
+    context "with user signed in" do
+      context "with valid inputs" do
+        before do
+          set_current_user
+          post :create, params: { business: Fabricate.attributes_for(:business) }
+        end
+        it "amends a business" do
+          some_other_business = Fabricate.attributes_for(:business)
+          put :update, params: {id: Business.first.id, business: some_other_business}
+          expect(Business.first.name).to eq(some_other_business[:name])
+        end
+        it "redirects to the show business page" do
+          some_other_business = Fabricate.attributes_for(:business)
+          put :update, params: {id: Business.first.id, business: some_other_business}
+          expect(response).to redirect_to business_path(Business.first)
+        end
+        it "displays a flash message" do
+          some_other_business = Fabricate.attributes_for(:business)
+          put :update, params: {id: Business.first.id, business: some_other_business}
+          expect(flash[:success]).to eq("Changes saved")
+        end
+      end
+      context "with invalid inputs" do
+        before do
+          set_current_user
+          post :create, params: { business: Fabricate.attributes_for(:business) }
+        end
+        it "displays a flash[:danger] message" do
+          put :update, params: {id: Business.first.id, business: {name: nil}}
+          expect(flash[:danger]).to be_present
+        end
+        it "sets @business" do
+          put :update, params: {id: Business.first.id, business: {name: nil}}
+          expect(assigns(:business)).to eq(Business.first)
+        end
+        it "renders the edit page" do
+          put :update, params: {id: Business.first.id, business: {name: nil}}
+          expect(response).to render_template(:edit)
+        end
+      end
+    end
   end
-
+  
   describe "POST create" do
     it_behaves_like "requires_signed_in_user" do
       let(:action) { post :create, params: { business: Fabricate.attributes_for(:business) }}

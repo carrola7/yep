@@ -1,0 +1,21 @@
+.container
+  .row.mt-5
+    .col-md-8
+      %h4.text-danger.font-weight-bold.mb-4 Add New Business
+      = bootstrap_form_for @business do |f|
+        = f.text_field :name, class: "form-control-sm"
+        = f.text_field :address_1, class: "form-control-sm"
+        = f.text_field :address_2, class: "form-control-sm"
+        = f.text_field :city, class: "form-control-sm"
+        = f.text_field :country, class: "form-control-sm"
+        = f.fields_for :tags do |tag_form|
+          = tag_form.label :name, 'Tags <small class="text-muted ml-2">Enter up to three tags</small>'.html_safe
+          %div.form-row.mb-2
+            %div.col
+              = tag_form.text_field :name, hide_label: true, placeholder: "e.g. Food", class: "form-control-sm"
+            %div.col
+              = tag_form.text_field :name, hide_label: true, placeholder: "e.g. Irish", class: "form-control-sm"
+            %div.col
+              = tag_form.text_field :name, hide_label: true, placeholder: "e.g. Cheap", class: "form-control-sm"
+        = f.submit "Submit", class: "btn btn-danger mr-2"
+        = link_to 'Cancel', businesses_path

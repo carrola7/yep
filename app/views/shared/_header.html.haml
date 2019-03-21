@@ -16,7 +16,7 @@
             %i.fa.fa-search
       .col-md-3
         .d-flex.justify-content-around
-          %a.btn.bg-custom-red.px-3.my-2.bg-danger.text-white(href="#" data-toggle="tooltip" data-placement="bottom" title="See All Businesses")
+          = link_to businesses_path, class: "btn bg-custom-red px-3 my-2 bg-danger text-white", "data-toggle" => "tooltip", "data-placement" => "bottom", title: "See All Businesses" do
             %i.far.fa-building
           %a.btn.bg-custom-red.px-3.my-2.bg-danger.text-white(href="#" data-toggle="tooltip" data-placement="bottom" title="See All Reviews")
             %i.far.fa-star
