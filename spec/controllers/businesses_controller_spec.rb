@@ -88,6 +88,39 @@ describe BusinessesController do
           expect(flash[:success]).to eq("Changes saved")
         end
       end
+      context "with one tag" do
+        let(:business_params) { Fabricate.attributes_for(:business) }
+        let(:tag) { Fabricate.attributes_for(:tag) }
+        before do
+          set_current_user
+          business_params[:tags] = [tag]
+          post :create, params: { business: business_params }
+        end
+        it "updates the business' tag" do
+          new_tag = Fabricate.attributes_for(:tag)
+          business_params[:tags] = [new_tag]
+          put :update, params: { id: Business.first.id, business: business_params }
+          expect(Business.first.tags.first.name).to eq(new_tag[:name])
+        end
+      end
+      context "with multiple tags" do
+        let(:business_params) { Fabricate.attributes_for(:business) }
+        let(:tag_1) { Fabricate.attributes_for(:tag) }
+        let(:tag_2) { Fabricate.attributes_for(:tag) }
+        let(:tag_3) { Fabricate.attributes_for(:tag) }
+
+        before do
+          set_current_user
+          business_params[:tags] = [tag_1, tag_2, tag_3]
+          post :create, params: { business: business_params }
+        end
+        it "updates the business' tags" do
+          new_tags = Array.new(3).map { Fabricate.attributes_for(:tag) }
+
+          put :update, params: { id: Business.first.id, :business => {tags: new_tags} }
+          expect(new_tags.map{|n| n[:name]}).to include(new_tags.first[:name])
+        end
+      end
       context "with invalid inputs" do
         before do
           set_current_user
@@ -130,6 +163,31 @@ describe BusinessesController do
         end
         it "redirects to the business page" do
           expect(response).to redirect_to(businesses_path)
+        end
+      end
+      context "with tags" do
+        let(:business_params) { Fabricate.attributes_for(:business) }
+        let(:other_business_params) { Fabricate.attributes_for(:business) }
+
+        it "creates new tag when one tag attached" do
+          business_params[:tags] =  [ Fabricate.attributes_for(:tag) ] 
+          post :create, params: { business: business_params }
+          expect(Tag.count).to eq(1)
+        end
+        it "creates new tags when multiple tags attached" do
+          business_params[:tags] =  Array.new(3).map { Fabricate.attributes_for(:tag) } 
+          post :create, params: { business: business_params }
+          expect(Tag.count).to eq(3)
+        end
+        it "doesn't create a new tag if the tag name already exists" do
+          tag = Fabricate.attributes_for(:tag)
+          business_params[:tags] = [tag]
+          post :create, params: { business: business_params }
+
+          other_business_params[:tags] = [tag]
+          post :create, params: { business: other_business_params }
+
+          expect(Tag.count).to eq(1)
         end
       end
       context "with invalid input" do
