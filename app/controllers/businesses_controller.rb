@@ -50,8 +50,10 @@ class BusinessesController < ApplicationController
   def add_tags_to_business
     Business.transaction do
       tag_params[:tags].each do |tag_param| 
-        tag = Tag.find_by(name: tag_param[:name]) || Tag.create(tag_param)
-        @business.tags << tag
+        unless tag_param[:name].blank?
+          tag = Tag.find_by(name: tag_param[:name]) || Tag.create(tag_param)
+          @business.tags << tag
+        end
       end
     end
   end
