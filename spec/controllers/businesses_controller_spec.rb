@@ -2,9 +2,13 @@ require 'rails_helper'
 
 describe BusinessesController do
   describe "GET index" do
-    it "sets the @businesses variable" do
+    it "sets @businesses" do
       get :index
       expect(assigns(:businesses)).to eq(Business.all)
+    end
+    it "renders the index template" do
+      get :index
+      expect(response).to render_template :index
     end
   end
 
@@ -15,7 +19,7 @@ describe BusinessesController do
       some_business.user = bob
       some_business.save
     end
-    it "sets the @business variable" do
+    it "sets @business" do
       get :show, params: { id: some_business.id }
       expect(assigns(:business)).to eq(some_business)
     end
@@ -122,21 +126,27 @@ describe BusinessesController do
         end
       end
       context "with invalid inputs" do
+        let(:tag) { Fabricate(:tag) }
         before do
           set_current_user
           post :create, params: { business: Fabricate.attributes_for(:business) }
         end
         it "displays a flash[:danger] message" do
-          put :update, params: {id: Business.first.id, business: {name: nil}}
+          put :update, params: {id: Business.first.id, business: { name: nil }}
           expect(flash[:danger]).to be_present
         end
         it "sets @business" do
-          put :update, params: {id: Business.first.id, business: {name: nil}}
+          put :update, params: {id: Business.first.id, business: { name: nil }}
           expect(assigns(:business)).to eq(Business.first)
         end
-        it "renders the edit page" do
-          put :update, params: {id: Business.first.id, business: {name: nil}}
+        it "renders the :edit template" do
+          put :update, params: {id: Business.first.id, business: { name: nil }}
           expect(response).to render_template(:edit)
+        end
+        it "doesn't update the tags" do
+          put :update, params: { id: Business.first.id, business: { tags: [{ name: tag.name}] } }
+          put :update, params: { id: Business.first.id, business: { name: nil, tags: [{ name: "foo"} ] } }
+          expect(Business.first.tags.map(&:name)).not_to include("foo")
         end
       end
     end
@@ -188,6 +198,11 @@ describe BusinessesController do
           post :create, params: { business: other_business_params }
 
           expect(Tag.count).to eq(1)
+        end
+        it "creates tags associated with the business" do
+          business_params[:tags] =  Array.new(3).map { Fabricate.attributes_for(:tag) } 
+          post :create, params: { business: business_params }
+          expect(Business.first.tags).to include(Tag.first)
         end
       end
       context "with invalid input" do

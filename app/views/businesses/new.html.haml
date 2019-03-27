@@ -1,18 +1,5 @@
 .container
   .row.mt-5
     .col-md-8
-      %h4.text-danger.font-weight-bold.mb-4 Add New Business
-      = bootstrap_form_for @business do |f|
-        = f.text_field :name, class: "form-control-sm"
-        = f.text_field :address_1, class: "form-control-sm"
-        = f.text_field :address_2, class: "form-control-sm"
-        = f.text_field :city, class: "form-control-sm"
-        = f.text_field :country, class: "form-control-sm"
-        = f.phone_field :phone, class: "form-control-sm"
-        = f.label :name, 'Tags <small class="text-muted ml-2">Enter up to three tags</small>'.html_safe
-        %div.form-row.mb-2
-          - ["Food", "Irish", "Cheap"].each_with_index do |placeholder, index|
-            %div.col
-              = text_field_tag "[business]tags[]name", @business.tags[index]&.name, hide_label: true, placeholder: "e.g. #{placeholder}", class: "form-control form-control-sm mb-2" 
-        = f.submit "Submit", class: "btn btn-danger mr-2"
-        = link_to 'Cancel', businesses_path
+      = render 'shared/title', title: "Add New Business"
+      = render 'form'

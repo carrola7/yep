@@ -25,10 +25,14 @@ class BusinessesController < ApplicationController
     @business = Business.new
   end
 
+  def edit
+    @business = Business.find params[:id]
+  end
+
   def update
     @business = Business.find params[:id]
-    update_business_tags if tag_params[:tags]
     if @business.update(business_params)
+      update_business_tags if tag_params[:tags]
       flash[:success] = "Changes saved"
       redirect_to(business_path @business)
     else
