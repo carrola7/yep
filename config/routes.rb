@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:create]
   resources :sessions, only: [:create]
-  resources :businesses, only: [:index, :show, :create, :edit, :new, :update]
-  resources :reviews, only: [:index, :show, :create, :edit, :new, :update]
+  resources :businesses, only: [:index, :show, :create, :edit, :new, :update] do
+    resources :reviews, only: [:show, :create, :edit, :new, :update]
+  end
+  resources :reviews, only: [:index]
 end
