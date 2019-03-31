@@ -1,0 +1,39 @@
+.container
+  .row.mt-5
+    .col
+      .row
+        .col-sm-8
+          %h1
+            = @business.name
+          .mb-2
+            = render 'review_info', business: @business
+          %h6.text-muted.mb-3
+            = render 'price_and_tag_info', business: @business
+            = link_to edit_business_path(@business), class: 'd-block' do
+              %i.fas.fa-pen.mr-2
+              Edit this business
+        .col-sm-4
+          = render 'shared/write_a_review_button', business: @business
+      .row
+        .col
+          %address
+            %ul
+              %li.mb-2
+                %i.fas.fa-phone.text-muted.mr-2
+                = @business.phone
+              %li
+                %i.fas.fa-map-marker-alt.text-muted.mr-2
+                = @business.address_1
+              %li.pl-4
+                = @business.city
+      %hr
+      .row
+        .col
+          %h5.my-4
+            %span.text-danger.font-weight-bold Reviews
+            = "for #{@business.name}"
+      .row
+        .col
+          %ul
+            - @business.reviews.each do |review|
+              = render 'reviews/review_card', review: review, display_card_header: false

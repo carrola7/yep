@@ -1,0 +1,4 @@
+.mb-2
+  = render 'reviews/star_details', business: business
+  %span.text-muted.ml-2 
+    = pluralize(business.reviews.count, 'review')

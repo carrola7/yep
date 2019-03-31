@@ -1,0 +1,11 @@
+.container
+  .row.my-5
+    .col
+      = link_to "+ Add New Review", businesses_path, class: "btn btn-outline-danger"
+    .col.text-right.text-muted
+      Showing 1-5 of 50
+  .row
+    .col
+      %ul
+        - @reviews.each do |review|
+          = render 'review_card', review: review, display_card_header: true  

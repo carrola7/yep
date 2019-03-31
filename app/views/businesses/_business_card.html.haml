@@ -1,0 +1,28 @@
+%li
+  .card.mt-5
+    .card-body
+      .row
+        .col-sm-8
+          %h4.card-title
+            1.
+            %span.mr-3
+              = link_to business.name, business_path(business)
+            = render 'shared/write_a_review_button', business: business
+          = render 'review_info', business: business
+          %h6.card-subtitle.text-muted.mb-3
+            = render 'price_and_tag_info', business: business
+        .col-sm-4
+          %address.float-sm-right.mr-4
+            %ul
+              %li 
+                = business.phone
+              %li 
+                = business.address_1
+              %li 
+                = business.city
+      .row
+        %p.px-3
+          = business.first_review_summary
+          - if business.first_review_summary
+            %span
+              = link_to "Read More", business_path(business) 

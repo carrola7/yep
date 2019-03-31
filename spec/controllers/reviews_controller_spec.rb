@@ -96,7 +96,7 @@ describe ReviewsController do
         end
       end
       context "with invalid input" do
-        let(:some_review) { Fabricate.attributes_for(:review, user: current_user) }
+        let(:some_review) { Fabricate.attributes_for(:review, rating: nil, user: current_user) }
         let(:some_business) { Fabricate(:business, user: current_user) }
         before do
           post :create, params: { review: some_review, business_id: some_business.id }
@@ -109,6 +109,9 @@ describe ReviewsController do
         end
         it "sets @review" do
           expect(assigns(:review)).to be_instance_of(Review)
+        end
+        it "sets @review associated with a business" do
+          expect(assigns(:review).business).to be_instance_of Business
         end
         it "renders the :new template" do
           expect(response).to render_template :new
@@ -170,6 +173,12 @@ describe ReviewsController do
         end
         it "doesn't change the review" do
           expect(Review.first.body).to eq(some_review.body)
+        end
+        it "sets a flash message" do
+          expect(flash[:danger]).to be_present
+        end
+        it "redirects to the reviews path" do
+          expect(response).to redirect_to reviews_path
         end
       end
     end
