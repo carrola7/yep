@@ -30,7 +30,7 @@
                 %a.user-icon.bg-light.d-block.p-2.ml-2.rounded.align-self-center(href="#")
                   %i.far.fa-user.fa-3x
                 .p-2.mr-2
-                  = link_to current_user.try(:name), "#", class: "font-weight-bold"
+                  = link_to current_user.try(:name), user_path(current_user) class: "font-weight-bold" do
                   .font-weight-bold.small Swords, Co Dublin
                   .d-flex
                     .small

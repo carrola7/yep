@@ -6,28 +6,34 @@ feature 'User updates an existing review' do
       user_signs_in
     end
 
-    scenario 'with valid inputs' do
+    scenario 'updates a review' do
       user_creates_a_review
       click_link("Edit")
       within "select" do
         find("option[value='1']").select_option
       end
       fill_in('Review', with: Fabricate.attributes_for(:review)[:body])
-      click_button('Post Review')
+      click_button('Update Review')
+      expect(page).to have_content("Review has been updated")
     end
+  end
 
-    scenario 'with invalid inputs' do
-      bob = Fabricate(:user)
-      some_business = Fabricate(:business, user: bob)
-      click_link "See All Reviews"
-      click_link "+ Add New Review"
-      click_link "Write A Review"
+  context "with invalid inputs" do
+    background do
+      user_signs_in
+      user_creates_a_review
+      click_link("Edit")
       within "select" do
         find("option[value='1']").select_option
       end
-      click_button('Post Review')
-      expect(page).to have_content("There was an error with your inputs")
-      expect(Review.count).to eq 0
+      fill_in('Review', with: nil)
+      click_button('Update Review')
+    end
+    scenario "displays an error message" do
+      expect(page).to have_content("There was a problem with your inputs")
+    end
+    scenario "renders the :edit template" do
+      expect(page).to have_content("Edit review for #{Business.first.name}")
     end
   end
 end

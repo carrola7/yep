@@ -12,6 +12,11 @@ class ReviewsController < ApplicationController
 
   def edit
     @review = Review.find params[:id]
+    if !current_user?(@review.user)
+      access_denied(reviews_path)
+    else
+      render :edit
+    end
   end
 
   def show
@@ -32,11 +37,11 @@ class ReviewsController < ApplicationController
 
   def update
     @review = Review.find params[:id]
-    if @review.user != current_user
-      deny_update
+    if !current_user?(@review.user)
+      access_denied(reviews_path)
     elsif @review.update(review_params)
       flash[:success] = "Review has been updated."
-      redirect_to business_review_path(@review.business, @review)
+      redirect_to business_path(@review.business)
     else
       flash[:danger] = "There was a problem with your inputs"
       render :edit
@@ -49,8 +54,4 @@ class ReviewsController < ApplicationController
     params.require(:review).permit([:rating, :body, :business_id])
   end
 
-  def deny_update
-    flash[:danger] = "You are not authorized to do that"
-    redirect_to reviews_path
-  end
 end

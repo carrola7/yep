@@ -1,0 +1,11 @@
+.container
+  .row.mt-5
+    .col-lg-8
+      %h4.text-secondary.font-weight-bold.mb-4 
+        %small.mr-1
+          Edit review for
+        = link_to(@review.business.name, business_path(@review.business))
+  .row
+    .col-lg-8
+      = render 'form', review: @review
+        

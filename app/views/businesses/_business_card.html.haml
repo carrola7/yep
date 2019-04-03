@@ -4,7 +4,7 @@
       .row
         .col-sm-8
           %h4.card-title
-            1.
+            = "#{index + 1}."
             %span.mr-3
               = link_to business.name, business_path(business)
             = render 'shared/write_a_review_button', business: business

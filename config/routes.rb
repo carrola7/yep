@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'home', to: 'pages#front', as: :home 
   root to: 'pages#front'
 
-  resources :users, only: [:create, :show]
+  resources :users, only: [:create, :show, :edit, :update]
   resources :sessions, only: [:create]
   resources :businesses, only: [:index, :show, :create, :edit, :new, :update] do
     resources :reviews, only: [:show, :create, :edit, :new, :update]

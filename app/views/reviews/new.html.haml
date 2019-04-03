@@ -7,8 +7,5 @@
         = link_to(@review.business.name, business_path(@review.business))
   .row
     .col-lg-8
-      = bootstrap_form_for([@review.business, @review])  do |f|
-        = f.select :rating, [5, 4, 3, 2, 1].map { |r| [print_stars(r), r]}, {}, class: "text-danger"
-        = f.text_area :body, rows: 10, label: "Review", placeholder: "Your review helps others learn about great local businesses.                                                                           Please don't review this business if you received a freebie for writing this review, or if you're connected in any way to the owner or employees."
-        = f.submit "Post Review", class: "btn btn-danger"
+      = render 'form', review: @review
         

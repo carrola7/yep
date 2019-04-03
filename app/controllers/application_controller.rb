@@ -10,11 +10,15 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    access_denied unless logged_in?
+    access_denied(login_path) unless logged_in?
   end
 
-  def access_denied
+  def access_denied(path)
     flash[:danger] = "You must be logged in to do that"
-    redirect_to login_path
+    redirect_to path
+  end
+
+  def current_user?(user)
+    user == current_user
   end
 end

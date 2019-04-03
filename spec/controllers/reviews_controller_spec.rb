@@ -48,23 +48,41 @@ describe ReviewsController do
   end
 
   describe "GET edit" do
-    it_behaves_like "requires_signed_in_user" do
+    context "with user editing their own review" do
+      it_behaves_like "requires_signed_in_user" do
+        let(:bob) { Fabricate(:user) }
+        let(:some_business) { Fabricate(:business, user: bob) }
+        let(:some_review) { Fabricate(:review, user: bob, business: some_business) }
+        let(:action) { get :edit, params: { id: Review.first.id, business_id: some_business.id } }
+      end
+      before do
+        set_current_user
+        some_business = Fabricate(:business, user: current_user)
+        some_review = Fabricate(:review, user: current_user, business: some_business)
+        get :edit, params: {business_id: some_business.id, id: some_review.id }
+      end
+      it "sets @review" do
+        expect(assigns(:review)).to eq(Review.first)
+      end
+      it "renders the :edit template" do
+        expect(response).to render_template :edit
+      end
+    end
+    context "with user trying to edit someone else's review" do
       let(:bob) { Fabricate(:user) }
+      let(:alice) { Fabricate(:user) }
       let(:some_business) { Fabricate(:business, user: bob) }
       let(:some_review) { Fabricate(:review, user: bob, business: some_business) }
-      let(:action) { get :edit, params: { id: Review.first.id, business_id: some_business.id } }
-    end
-    before do
-      set_current_user
-      some_business = Fabricate(:business, user: current_user)
-      some_review = Fabricate(:review, user: current_user, business: some_business)
-      get :edit, params: {business_id: some_business.id, id: some_review.id }
-    end
-    it "sets @review" do
-      expect(assigns(:review)).to eq(Review.first)
-    end
-    it "renders the :edit template" do
-      expect(response).to render_template :edit
+      before do
+        set_current_user(alice)
+        get :edit, params: { business_id: some_business.id, id: some_review.id }
+      end
+      it "renders an error message" do
+        expect(flash[:danger]).to be_present
+      end
+      it "redirects to the reviews page" do
+        expect(response).to redirect_to reviews_path
+      end
     end
   end
 
@@ -144,7 +162,7 @@ describe ReviewsController do
           expect(Review.first.body).to eq(another_review[:body])
         end
         it "redirects to the show business page" do
-          expect(response).to redirect_to business_review_path(some_business, some_review)
+          expect(response).to redirect_to business_path(some_business)
         end
         it "displays a flash message" do
           expect(flash[:success]).to be_present

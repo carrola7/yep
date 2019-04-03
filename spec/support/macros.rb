@@ -16,7 +16,7 @@ def user_creates_a_review
     find("option[value='1']").select_option
   end
   fill_in('Review', with: Fabricate.attributes_for(:review)[:body])
-  click_button('Post Review')
+  click_button('Create Review')
 end
 
 def set_current_user(user = nil)

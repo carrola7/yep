@@ -21,7 +21,7 @@ feature 'User creates a new review' do
       within "select" do
         find("option[value='1']").select_option
       end
-      click_button('Post Review')
+      click_button('Create Review')
       expect(page).to have_content("There was an error with your inputs")
       expect(Review.count).to eq 0
     end
