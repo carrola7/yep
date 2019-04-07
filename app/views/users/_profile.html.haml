@@ -1,0 +1,12 @@
+= link_to user.name, user_path(user), class: "font-weight-bold"
+.font-weight-bold.small 
+  = user.city
+.font-weight-bold.small 
+  = user.country
+.d-flex
+  .small
+    %i.far.fa-building.text-warning
+    = user.businesses.count
+  .small.ml-3
+    %i.far.fa-star.text-warning
+    = user.reviews.count
