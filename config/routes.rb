@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   root to: 'pages#front'
 
   resources :users, only: [:create, :show, :edit, :update]
+  resources :settings, only: [:edit, :update]
   resources :sessions, only: [:create]
   resources :businesses, only: [:index, :show, :create, :edit, :new, :update] do
     resources :reviews, only: [:show, :create, :edit, :new, :update]

@@ -14,42 +14,43 @@
           %input.form-control.no-blue-glow.no-border-left(type="text" placeholder="Dublin")
           %button.input-group-append.text-white.bg-custom-red.px-4.rounded-right.no-blue-glow
             %i.fa.fa-search
-      .col-md-3
-        .d-flex.justify-content-around
-          = link_to businesses_path, class: "btn bg-custom-red px-3 my-2 bg-danger text-white", "data-toggle" => "tooltip", "data-placement" => "bottom", title: "See All Businesses" do
-            %i.far.fa-building
-          = link_to reviews_path, class:"btn bg-custom-red px-3 my-2 bg-danger text-white", "data-toggle" => "tooltip", "data-placement" => "bottom", title: "See All Reviews" do
-            %i.far.fa-star
-          .dropdown
-            .btn.btn-group(data-toggle="dropdown")
-              %button.btn.btn-light.no-blue-glow.user-icon(type="button")
-                %i.far.fa-user
-              %button.btn.text-white.bg-custom-red.dropdown-toggle.no-blue-glow.px-2(type="button")
-            .dropdown-menu
-              .d-flex
-                %a.user-icon.bg-light.d-block.p-2.ml-2.rounded.align-self-center(href="#")
-                  %i.far.fa-user.fa-3x
-                .p-2.mr-2
-                  = link_to current_user.try(:name), user_path(current_user) class: "font-weight-bold" do
-                  .font-weight-bold.small Swords, Co Dublin
-                  .d-flex
-                    .small
-                      %i.far.fa-building.text-warning
-                      0
-                    .small.ml-3
-                      %i.far.fa-star.text-warning
-                      0
-              .dropdown-divider
-              %a.dropdown-item.text-primary(href="#") 
-                %i.far.fa-user.text-secondary.mr-2.fixed-width-1.text-center
-                %span.small.font-weight-bold
-                  About Me
-              %a.dropdown-item.text-primary(href="#") 
-                %i.fas.fa-cog.text-secondary.mr-2.fixed-width-1.text-center 
-                %span.small.font-weight-bold
-                  Account Settings
-              .dropdown-divider
-              = link_to "Log Out", logout_path, class: "dropdown-item text-primary"
+      - if logged_in?
+        .col-md-3
+          .d-flex.justify-content-around
+            = link_to businesses_path, class: "btn bg-custom-red px-3 my-2 bg-danger text-white", "data-toggle" => "tooltip", "data-placement" => "bottom", title: "See All Businesses" do
+              %i.far.fa-building
+            = link_to reviews_path, class:"btn bg-custom-red px-3 my-2 bg-danger text-white", "data-toggle" => "tooltip", "data-placement" => "bottom", title: "See All Reviews" do
+              %i.far.fa-star
+            .dropdown
+              .btn.btn-group(data-toggle="dropdown")
+                %button.btn.btn-light.no-blue-glow.user-icon(type="button")
+                  %i.far.fa-user
+                %button.btn.text-white.bg-custom-red.dropdown-toggle.no-blue-glow.px-2(type="button")
+              .dropdown-menu
+                .d-flex
+                  %a.user-icon.bg-light.d-block.p-2.ml-2.rounded.align-self-center(href="#")
+                    %i.far.fa-user.fa-3x
+                  .p-2.mr-2
+                    = link_to current_user.name, user_path(current_user), class: "font-weight-bold"
+                    .font-weight-bold.small Swords, Co Dublin
+                    .d-flex
+                      .small
+                        %i.far.fa-building.text-warning
+                        0
+                      .small.ml-3
+                        %i.far.fa-star.text-warning
+                        0
+                .dropdown-divider
+                %a.dropdown-item.text-primary(href="#") 
+                  %i.far.fa-user.text-secondary.mr-2.fixed-width-1.text-center
+                  %span.small.font-weight-bold
+                    About Me
+                = link_to edit_setting_path(current_user), class: "dropdown-item text-primary" do
+                  %i.fas.fa-cog.text-secondary.mr-2.fixed-width-1.text-center 
+                  %span.small.font-weight-bold
+                    Account Settings
+                .dropdown-divider
+                = link_to "Log Out", logout_path, class: "dropdown-item text-primary"
 
 %script
   $('[data-toggle="tooltip"]').tooltip();

@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :require_user, only: [:show, :edit, :update]
 
   def new
+    redirect_to home_path if logged_in?
     @user = User.new
   end
 
@@ -46,6 +47,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :first_name, :last_name, :city, :loves, :birthday_d, :birthday_m, :birthday_y)
+    params.require(:user).permit(:email, :password, :first_name, :last_name, :city, :country, :loves, :birthday_d, :birthday_m, :birthday_y)
   end
 end

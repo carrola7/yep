@@ -17,4 +17,31 @@ describe User do
       end
     end
   end
+
+  describe "#location" do
+    context "with city and country" do
+      let(:joe) { Fabricate(:user, city: "Swords", country: "Ireland") }
+      it "returns the correct location string" do
+        expect(joe.location).to eq("Swords, Ireland")
+      end
+    end
+    context "with country saved as an empty string" do
+      let(:joe) { Fabricate(:user, city: "Swords", country: "") }
+      it "returns city" do
+        expect(joe.location).to eq("Swords")
+      end
+    end
+    context "with city saved as an empty string" do
+      let(:joe) { Fabricate(:user, city: "", country: "Ireland") }
+      it "returns country" do
+        expect(joe.location).to eq("Ireland")
+      end
+    end
+    context "with city and country saved as nil" do
+      let(:joe) { Fabricate(:user, city: nil, country: nil) }
+      it "returns no location yet" do
+        expect(joe.location).to be_nil
+      end
+    end
+  end
 end

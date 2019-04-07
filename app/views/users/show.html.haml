@@ -1,0 +1,47 @@
+.container
+  .row.mt-5
+    .col
+      %h1
+        = @user.name
+      %h6
+        = @user.location
+      .d-flex
+        .small
+          %i.far.fa-building.text-warning
+          = pluralize(@user.businesses.count, "Business")
+        .small.ml-3
+          %i.far.fa-star.text-warning
+          = pluralize(@user.reviews.count, "Review")
+      - if @user == current_user
+        = link_to edit_user_path(@user), class: "small font-weight-bold" do
+          %i.fas.fa-edit
+          Update your profile
+  .row.mt-5
+    .col
+      %h5.font-weight-bold.text-danger 
+        = "Reviews by #{@user.name}"
+  .row
+    .col-md-8.order-2.order-md-1
+      %ul
+        - @user.reviews.each do |review|
+          = render 'reviews/review_card', review: review, display_card_header: true
+
+    .col-md-4.order-1.order-md-2.mb-5
+      .card
+        .card-body
+          %h6.font-weight-bold.text-danger 
+            ="About #{@user.name}"
+          - if @user.location
+            %p.mb-0.card-text.font-weight-bold Location
+            %p.mb-2.card-text
+              = @user.location
+          %p.mb-0.card-text.font-weight-bold Yepping Since
+          %p.mb-2.card-text 
+            = @user.since
+          %p.mb-0.card-text.font-weight-bold Things I Love
+          %p.mb-2.card-text 
+            - if @user.loves.blank?
+              You haven't told us yet... do tell!
+            - else
+              @user.loves
+              

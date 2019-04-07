@@ -4,32 +4,25 @@
       .container
         %h3.text-danger.font-weight-bold.text-center.mt-4 Sign Up For Yep
         %h6.font-weight-bold.text-center.mb-3 Connect with great local businesses
-        = bootstrap_form_for @user do |f|
+        = bootstrap_form_for @user do |form|
           .form-row.mb-2
             .col
-              = f.text_field :first_name, hide_label: true, placeholder: "First Name", required: true
+              = form.text_field :first_name, hide_label: true, placeholder: "First Name", required: true
             .col
-              = f.text_field :last_name, hide_label: true, placeholder: "Last Name", required: true
-          = f.text_field :email, hide_label: true, placeholder: "Email", required: true
-          = f.password_field :password, hide_label: true, placeholder: "Password", required: true
-          = f.text_field :city, hide_label: true, placeholder: "City/Town"
+              = form.text_field :last_name, hide_label: true, placeholder: "Last Name", required: true
+          = form.text_field :email, hide_label: true, placeholder: "Email", required: true
+          = form.password_field :password, hide_label: true, placeholder: "Password", required: true
+          = form.text_field :city, hide_label: true, placeholder: "City/Town"
           %h6.font-weight-bold
             Birthday
             %span.font-weight-normal.text-muted.small Optional
-          .form-row
-            .col
-              = f.select(:birthday_d, options_for_select((1..31).to_a, selected: @user[:birthday_d]), hide_label: true, include_blank: "Day")
-            .col
-              = f.select(:birthday_m, options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, selected: @user[:birthday_m]), hide_label: true, include_blank: "Month")
-            .col
-              = f.select(:birthday_y, options_for_select((1900..2020).to_a.reverse, selected: @user[:birthday_y]), hide_label: true, include_blank: "Year")
-          = f.button "Sign Up", class: "btn btn-block btn-danger my-4"
-
-          
+          = render "birthday_field", user: @user, form: form
+          = form.button "Sign Up", class: "btn btn-block btn-danger my-4"
+    
         %p.text-muted.small 
           Already on Yep?
           %span
-            %a(href="#") Log in
+            = link_to "Log in", login_path
             
         
     .d-none.d-lg-block.col-lg-6

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_31_053514) do
+ActiveRecord::Schema.define(version: 2019_04_04_045349) do
 
   create_table "business_tags", force: :cascade do |t|
     t.integer "business_id"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2019_03_31_053514) do
     t.string "first_name"
     t.string "last_name"
     t.string "city"
-    t.string "loves"
+    t.text "loves"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "birthday_d"

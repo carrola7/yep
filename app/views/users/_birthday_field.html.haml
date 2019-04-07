@@ -1,0 +1,7 @@
+.form-row
+  .col
+    = form.select(:birthday_d, options_for_select((1..31).to_a, selected: user[:birthday_d]), { hide_label: true, include_blank: "Day"} , class: "#{'form-control-sm' if local_assigns[:small]}")
+  .col
+    = form.select(:birthday_m, options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, selected: user[:birthday_m]), { hide_label: true, include_blank: "Month" }, class: "#{'form-control-sm' if local_assigns[:small]}")
+  .col
+    = form.select(:birthday_y, options_for_select((1900..2020).to_a.reverse, selected:@user[:birthday_y]), { hide_label: true, include_blank: "Year" }, class: "#{'form-control-sm' if local_assigns[:small]}")

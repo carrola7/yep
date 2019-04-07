@@ -1,0 +1,21 @@
+.container
+  .row.mt-5
+    .col-md-8
+      %h5.text-danger.font-weight-bold Update Your Profile
+      %hr
+        = bootstrap_form_for @user do |form|
+          = form.label(:first_name) do
+            First Name
+            %small.font-italic.text-muted (required)
+          = form.text_field :first_name, hide_label: true, class: "form-control-sm"
+          = form.label(:last_name) do
+            Last Name
+            %small.font-italic.text-muted (required)
+          = form.text_field :last_name, hide_label: true, class: "form-control-sm"
+          = form.text_field :city, label: "City/Town", class: "form-control-sm"
+          = form.text_field :country, class: "form-control-sm"
+          = form.label "Birthday"
+          = render "birthday_field", user: @user, form: form, small: true
+          = form.text_area :loves, label: "I love...", class: "form-control-sm"
+          = form.submit "Save Changes", class: "btn btn-danger"
+          = link_to "Cancel", user_path(@user)
