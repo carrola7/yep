@@ -28,20 +28,12 @@
                 %button.btn.text-white.bg-custom-red.dropdown-toggle.no-blue-glow.px-2(type="button")
               .dropdown-menu
                 .d-flex
-                  %a.user-icon.bg-light.d-block.p-2.ml-2.rounded.align-self-center(href="#")
+                  = link_to user_path(current_user), class: "user-icon bg-light d-block p-2 ml-2 rounded align-self-center" do
                     %i.far.fa-user.fa-3x
                   .p-2.mr-2
-                    = link_to current_user.name, user_path(current_user), class: "font-weight-bold"
-                    .font-weight-bold.small Swords, Co Dublin
-                    .d-flex
-                      .small
-                        %i.far.fa-building.text-warning
-                        0
-                      .small.ml-3
-                        %i.far.fa-star.text-warning
-                        0
+                    = render 'users/profile', user: current_user
                 .dropdown-divider
-                %a.dropdown-item.text-primary(href="#") 
+                = link_to user_path(current_user), class: "dropdown-item text-primary" do
                   %i.far.fa-user.text-secondary.mr-2.fixed-width-1.text-center
                   %span.small.font-weight-bold
                     About Me

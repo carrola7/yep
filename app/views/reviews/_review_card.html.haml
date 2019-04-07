@@ -11,18 +11,7 @@
             .col-md-4
               %i.far.fa-user.fa-3x.text-secondary.bg-light.p-1.mb-3
             .col-md-8
-              = link_to review.user.name, user_path(review.user), class: "font-weight-bold"
-              .font-weight-bold.small 
-                = review.user.city
-              .font-weight-bold.small 
-                = review.user.country
-              .d-flex
-                .small
-                  %i.far.fa-building.text-warning
-                  = review.user.businesses.count
-                .small.ml-3
-                  %i.far.fa-star.text-warning
-                  = review.user.reviews.count
+              = render 'users/profile', user: review.user
         .col-sm-8
           .card-title
             .mb-2
