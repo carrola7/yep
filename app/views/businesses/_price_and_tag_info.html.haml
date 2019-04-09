@@ -1,8 +1,11 @@
 -if business.price
   = display_price(business.price)
-  &#8226;
+  - unless business.tags.blank? 
+    &#8226;
 %span
   %ul.d-inline-block
     - business.tags.each do |tag|
       %li.d-inline-block
         = link_to tag.name, tag_path(tag)
+        - unless business.tags.last == tag
+          &#8226;

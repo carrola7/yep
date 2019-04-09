@@ -5,6 +5,7 @@
   = f.text_field :city, class: "form-control-sm"
   = f.text_field :country, class: "form-control-sm"
   = f.phone_field :phone, class: "form-control-sm"
+  = f.select :price, [5, 4, 3, 2, 1].map { |p| [print_euros(p), p] }, { include_blank: true }
   = f.label :name, 'Tags <small class="text-muted ml-2">Enter up to three tags</small>'.html_safe
   %div.form-row.mb-2
     - ["Food", "Irish", "Cheap"].each_with_index do |placeholder, index|

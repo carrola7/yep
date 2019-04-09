@@ -3,4 +3,8 @@ class Tag < ActiveRecord::Base
   has_many :business_tags
   has_many :businesses, through: :business_tags
 
+  def name=(s)
+    write_attribute(:name, s.to_s.titleize) 
+  end
+
 end

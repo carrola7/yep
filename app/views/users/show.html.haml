@@ -23,8 +23,10 @@
   .row
     .col-md-8.order-2.order-md-1
       %ul
-        - @user.reviews.each do |review|
+        - @reviews.each do |review|
           = render 'reviews/review_card', review: review, display_card_header: true
+      = render 'shared/pagy', pagy: @pagy
+
 
     .col-md-4.order-1.order-md-2.mb-5
       .card

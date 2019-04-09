@@ -2,11 +2,12 @@ class BusinessesController < ApplicationController
   before_action :require_user, only: [:create, :new, :edit, :update]
 
   def index
-    @businesses = Business.all
+    @pagy, @businesses = pagy(Business.all)
   end
 
   def show
     @business = Business.find params[:id]
+    @pagy, @reviews = pagy(@business.reviews)
   end
 
   def create
@@ -41,6 +42,12 @@ class BusinessesController < ApplicationController
     end
   end
 
+  def search
+    @search_name = params[:search_name]&.strip
+    @search_location = params[:search_location]&.strip
+    @pagy, @businesses = pagy(Business.search(name: @search_name, location: @search_location))
+  end
+
   private
 
   def business_params
@@ -55,8 +62,8 @@ class BusinessesController < ApplicationController
     Business.transaction do
       tag_params[:tags].each do |tag_param| 
         unless tag_param[:name].blank?
-          tag = Tag.find_by(name: tag_param[:name]) || Tag.create(tag_param)
-          @business.tags << tag
+          tag = Tag.find_by(name: tag_param[:name].titleize) || Tag.create(tag_param)
+          @business.tags << tag unless @business.tags.map(&:name).include?(tag.name)
         end
       end
     end

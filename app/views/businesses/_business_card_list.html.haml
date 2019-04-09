@@ -1,0 +1,5 @@
+%ul
+  - businesses.each_with_index do |business, index|
+    = render 'business_card', business: business, index: index + @pagy.offset
+
+= render 'shared/pagy', pagy: @pagy

@@ -1,0 +1,10 @@
+.container
+  .row.d-flex.justify-content-center
+    .col-sm-4
+      %img.img-fluid(src="/images/city-1117433_1280.png")
+        %p.text-center.mt-2
+          Copyright &copy; <span id="year"></span> Yep 
+          %span
+
+%script
+  $('#year').text(new Date().getFullYear());

@@ -9,11 +9,10 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     %header
-      = render 'shared/header'
+      = render 'shared/header', search_name: @search_name, search_location: @search_location
     %section.content
       = render 'shared/messages'
       = yield
     %footer
-      &copy 2019 
-      %span
-        Yep
+      = render 'shared/footer'
+ 

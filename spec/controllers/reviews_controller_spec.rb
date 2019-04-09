@@ -4,7 +4,7 @@ describe ReviewsController do
   describe "GET index" do
     before { get :index }
     it "sets @reviews" do
-      expect(assigns(:reviews)).to eq(Review.all)
+      expect(assigns(:reviews)).to eq(Review.first 10)
     end
     it "renders the :index template" do
       expect(response).to render_template(:index)

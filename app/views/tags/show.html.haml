@@ -1,0 +1,8 @@
+.container
+  .row.mt-5
+    .col-md-6
+      %h4.text-danger.font-weight-bold.mb-4
+        Businesses with tag: 
+        %span.font-italic.text-capitalize
+          = "#{@tag.name}"
+  = render 'business_card_list', businesses: @businesses

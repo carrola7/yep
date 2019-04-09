@@ -4,7 +4,7 @@ describe BusinessesController do
   describe "GET index" do
     it "sets @businesses" do
       get :index
-      expect(assigns(:businesses)).to eq(Business.all)
+      expect(assigns(:businesses)).to eq(Business.first 10)
     end
     it "renders the index template" do
       get :index
@@ -22,6 +22,10 @@ describe BusinessesController do
     it "sets @business" do
       get :show, params: { id: some_business.id }
       expect(assigns(:business)).to eq(some_business)
+    end
+    it "sets @reviews" do
+      get :show, params: { id: some_business.id }
+      expect(assigns(:reviews)).to eq(some_business.reviews.first 10)
     end
     it "renders the show template" do 
       get :show, params: { id: some_business.id }
@@ -104,7 +108,7 @@ describe BusinessesController do
           new_tag = Fabricate.attributes_for(:tag)
           business_params[:tags] = [new_tag]
           put :update, params: { id: Business.first.id, business: business_params }
-          expect(Business.first.tags.first.name).to eq(new_tag[:name])
+          expect(Business.first.tags.first.name).to eq(new_tag[:name].titleize)
         end
       end
       context "with multiple tags" do
@@ -199,6 +203,13 @@ describe BusinessesController do
 
           expect(Tag.count).to eq(1)
         end
+        it "doesn't create multiple tags if all tag inputs have the same name" do
+          tag = Fabricate.attributes_for(:tag)
+          business_params[:tags] = [tag, tag, tag]
+          post :create, params: { business: business_params }
+
+          expect(Tag.first.businesses.count).to eq(1)
+        end
         it "creates tags associated with the business" do
           business_params[:tags] =  Array.new(3).map { Fabricate.attributes_for(:tag) } 
           post :create, params: { business: business_params }
@@ -221,6 +232,59 @@ describe BusinessesController do
         it "renders the :new template" do
           expect(response).to render_template(:new)
         end
+      end
+    end
+  end
+
+  describe "GET search" do
+    context "including business name only" do
+      let(:bob) { Fabricate(:user) }
+      before do
+        Fabricate(:business, name: "some business", user: bob)
+      end
+      it "sets @businesses" do
+        get "search", params: { search_name: "some" }
+        expect(assigns(:businesses)).to eq([Business.first])
+      end
+      it "renders :search" do
+        get "search", params: { search_name: "some" }
+        expect(response).to render_template(:search)
+      end
+      it "returns the correct business" do
+        another_business = Fabricate(:business, name: "another business", user: bob)
+        get "search", params: { search_name: "anoth" }
+        expect(assigns(:businesses)).to eq([another_business])
+      end
+    end
+    context "including location only" do
+      let(:bob) { Fabricate(:user) }
+      before do
+        Fabricate(:business, city: "Dublin", user: bob)
+      end
+      it "sets @businesses" do
+        get "search", params: { search_location: "Dub" }
+        expect(assigns(:businesses)).to eq([Business.first])
+      end
+      it "returns the correct business for city name match" do
+        another_business = Fabricate(:business, city: "London", user: bob)
+        get "search", params: { search_location: "Lon" }
+        expect(assigns(:businesses)).to eq([another_business])
+      end
+    end
+    context "including business name and location" do
+      let(:bob) { Fabricate(:user) }
+      before do
+        Fabricate(:business, name: "some business", city: "Dublin", user: bob)
+        Fabricate(:business, name: "another business", city: "Dublin", user: bob)
+        Fabricate(:business, name: "some business", city: "London", user: bob)
+      end
+      it "sets @businesses to the correct array" do
+        get "search", params: { search_name: "some", search_location: "Dub" }
+        expect(assigns(:businesses)).to eq([Business.first])
+      end
+      it "sets @businesses to the correct array and accounts for whitespace" do
+        get "search", params: { search_name: "  some ", search_location: " Dub" }
+        expect(assigns(:businesses)).to eq([Business.first])
       end
     end
   end

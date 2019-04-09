@@ -9,9 +9,10 @@
             = render 'review_info', business: @business
           %h6.text-muted.mb-3
             = render 'price_and_tag_info', business: @business
-            = link_to edit_business_path(@business), class: 'd-block' do
-              %i.fas.fa-pen.mr-2
-              Edit this business
+            - if logged_in?
+              = link_to edit_business_path(@business), class: 'd-block' do
+                %i.fas.fa-pen.mr-2
+                Edit this business
         .col-sm-4
           = render 'shared/write_a_review_button', business: @business
       .row
@@ -37,3 +38,6 @@
           %ul
             - @business.reviews.each do |review|
               = render 'reviews/review_card', review: review, display_card_header: false
+  .row
+    .col
+      = render 'shared/pagy', pagy: @pagy

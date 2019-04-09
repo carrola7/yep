@@ -7,6 +7,16 @@ class Business < ActiveRecord::Base
   has_many :reviews
   belongs_to :user
 
+  def self.search(params)
+    if params[:location] && params[:name]
+      search_for_name_and_location(params)
+    elsif params[:location]
+      search_for_location(params)
+    else
+      search_for_name(params)
+    end
+  end
+
   def stars
     rating.floor
   end
@@ -19,11 +29,23 @@ class Business < ActiveRecord::Base
     reviews.first&.body && reviews.first&.body[0..50] + "..."
   end
 
-  private
+
 
   def rating
     return 0 if reviews.empty?
     ratings = reviews.map(&:rating).map(&:to_i)
     ratings.reduce(&:+) / ratings.size.to_f
+  end
+
+  def self.search_for_name_and_location(params)
+    Business.where("lower(name) LIKE ? AND lower(city) LIKE ?", "%#{params[:name].downcase}%", "%#{params[:location].downcase}%").order("created_at DESC")
+  end
+
+  def self.search_for_location(params)
+    Business.where("lower(city) LIKE ? ", "%#{params[:location].downcase}%").order("created_at DESC")
+  end
+
+  def self.search_for_name(params)
+    Business.where("lower(name) LIKE ?", "%#{params[:name].downcase}%").order("created_at DESC")
   end
 end

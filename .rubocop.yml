@@ -1,0 +1,12 @@
+AllCops:
+  Excludes:
+    - db/schema.rb
+    - db/migrate/**/*
+    - test/**/*
+
+Metrics/LineLength:
+  Max: 80
+  IgnoredPatterns: ['\A#']
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

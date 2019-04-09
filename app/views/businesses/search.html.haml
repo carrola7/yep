@@ -1,0 +1,24 @@
+.container
+  .row.mt-5
+    .col
+      - if @businesses.empty?
+        %h4.font-weight-bold
+          = "Sorry, no results found for" 
+          %span.text-danger
+            = "#{@search_name}"
+          %span.text-primary
+            = "#{@search_location}"
+      - else
+        %h4.font-weight-bold
+          %span
+            = "Search results for" 
+          %span.text-danger
+            = "#{@search_name}"
+          %span.text-primary
+            = "#{@search_location}"
+    .col.text-right.text-muted
+      = render 'shared/showing', pagy: @pagy
+  .row
+    .col
+      = render 'business_card_list', businesses: @businesses, pagy: @pagy
+        

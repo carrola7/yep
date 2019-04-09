@@ -2,7 +2,7 @@ class ReviewsController < ApplicationController
   before_action :require_user, only: [:create, :new, :edit, :update]
 
   def index
-    @reviews = Review.all
+    @pagy, @reviews = pagy(Review.all)
   end
 
   def new

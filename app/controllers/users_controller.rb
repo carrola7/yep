@@ -20,6 +20,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find params[:id]
+    @pagy, @reviews = pagy(@user.reviews)
   end
 
   def edit
