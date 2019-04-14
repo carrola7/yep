@@ -1,5 +1,10 @@
 class PagesController < ApplicationController
   def front
-    redirect_to businesses_path if logged_in?
+    if logged_in?
+      redirect_to businesses_path
+    else
+      @pagy, @reviews = pagy(Review.all)
+      render layout: false
+    end
   end
 end

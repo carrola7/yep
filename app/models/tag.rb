@@ -1,10 +1,9 @@
-class Tag < ActiveRecord::Base
-  validates_presence_of :name
-  has_many :business_tags
+class Tag < ApplicationRecord
+  validates :name, presence: true
+  has_many :business_tags, dependent: :destroy
   has_many :businesses, through: :business_tags
 
-  def name=(s)
-    write_attribute(:name, s.to_s.titleize) 
+  def name=(str)
+    self[:name] = str.to_s.titleize
   end
-
 end

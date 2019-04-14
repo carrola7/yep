@@ -1,16 +1,18 @@
 class SettingsController < ApplicationController
-  before_action :require_user, only: [:edit, :update]
-  before_action :require_signed_in_user, only: [:edit]
+  before_action :require_user, only: %i[edit update]
+  before_action :require_signed_in_user, only: :edit
 
   def update
     @user ||= User.find params[:id]
     if @user.authenticate(old_password)
       update_password
     else
-      flash.now[:danger] = "Password incorrect, please try again."
+      flash.now[:danger] = 'Password incorrect, please try again.'
       render :edit
     end
   end
+
+  def edit; end
 
   private
 
@@ -26,15 +28,14 @@ class SettingsController < ApplicationController
   def old_password
     params[:old_password]
   end
-  
+
   def update_password
     if @user.update(new_password)
-      flash[:success] = "Your password has been updated"
+      flash[:success] = 'Your password has been updated'
       redirect_to user_path(@user)
     else
-      flash.now[:danger] = "New password did not match password confirmation, please try again."
+      flash.now[:danger] = 'New password did not match password confirmation, please try again.'
       render :edit
     end
   end
-
 end

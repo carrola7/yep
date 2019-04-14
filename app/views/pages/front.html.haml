@@ -1,0 +1,68 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Yep
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    %section.content
+      = render 'shared/messages'
+      %section#showcase
+        #mainCarousel.carousel.slide(data-ride="carousel")
+          %ol.carousel-indicators
+            %li.active(data-target="#mainCarousel" data-slide-to="0")
+            %li(data-target="#mainCarousel" data-slide-to="1")
+            %li(data-target="#mainCarousel" data-slide-to="2")
+          .carousel-inner
+            .carousel-item.active
+              %img.img-fluid(src="/images/image1.jpeg")
+                .light-overlay
+                  .container.h-100
+                    .d-flex.flex-column.justify-content-center.h-100
+                      .d-none.d-sm-block.mb-5.mx-5
+                        %h1.mb-5.yep.text-center.text-white.display-3
+                          Yep
+                        = render 'shared/search_bar', search_name: nil, search_location: nil
+            .carousel-item
+              %img.img-fluid.carousel-image(src="/images/image2.jpeg")
+                .light-overlay
+                  .container
+                    .carousel-caption.d-none.d-sm-block.text-right.mb-5
+                      %h1.display-3
+                        Contribute to the Community
+                      %p.lead
+                        Create an account to register new businesses and leave reviews
+                      = link_to 'Sign Up Now', register_path, class: "btn btn-danger"
+            .carousel-item
+              %img.img-fluid.carousel-image(src="/images/image3.jpeg")
+                .light-overlay
+                  .container
+                    .carousel-caption.d-none.d-sm-block.text-right.mb-5
+                      %h1.display-3
+                        Already a Member?
+                      %p.lead
+                        What are you waiting for? Log in now and start reviewing!!!
+                      = link_to 'Click here to log in', login_path, class: "btn btn-danger"
+
+          %a.carousel-control-prev(href="#mainCarousel" data-slide="prev")
+            %span.carousel-control-prev-icon
+          %a.carousel-control-next(href="#mainCarousel" data-slide="next")
+            %span.carousel-control-next-icon
+    .container
+      .row
+        .col
+          %ul
+            - @reviews.each do |review|
+              = render 'reviews/review_card', review: review, display_card_header: true  
+      .row
+        .col
+          = render 'shared/pagy', pagy: @pagy
+    %footer
+      = render 'shared/footer'
+
+
+%script
+  $('#mainCarousel').carousel({interval: 6000, hover: pause});

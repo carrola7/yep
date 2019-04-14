@@ -1,5 +1,5 @@
 class BusinessesController < ApplicationController
-  before_action :require_user, only: [:create, :new, :edit, :update]
+  before_action :require_user, only: %i[create new edit update]
 
   def index
     @pagy, @businesses = pagy(Business.all)
@@ -14,10 +14,10 @@ class BusinessesController < ApplicationController
     @business = Business.new(business_params.merge!(user: current_user))
     add_tags_to_business if tag_params[:tags]
     if @business.save
-      flash[:success] = "Congratulations! You have added a new business."
+      flash[:success] = 'Congratulations! You have added a new business.'
       redirect_to businesses_path
     else
-      flash.now[:danger] = "One or more inputs are invalid, please address the errors."
+      flash.now[:danger] = 'One or more inputs are invalid, please address the errors.'
       render :new
     end
   end
@@ -34,10 +34,10 @@ class BusinessesController < ApplicationController
     @business = Business.find params[:id]
     if @business.update(business_params)
       update_business_tags if tag_params[:tags]
-      flash[:success] = "Changes saved"
-      redirect_to(business_path @business)
+      flash[:success] = 'Changes saved'
+      redirect_to business_path(@business)
     else
-      flash.now[:danger] =  "One or more inputs are invalid, please address the errors."
+      flash.now[:danger] = 'One or more inputs are invalid, please address the errors.'
       render :edit
     end
   end
@@ -51,19 +51,19 @@ class BusinessesController < ApplicationController
   private
 
   def business_params
-    params.require(:business).permit([:name, :address_1, :address_2, :city, :country, :phone, :price])
+    params.require(:business).permit(:name, :address_1, :address_2, :city, :country, :phone, :price)
   end
 
   def tag_params
-    params.require(:business).permit([ {:tags => [:name] }])
+    params.require(:business).permit(tags: [:name])
   end
 
   def add_tags_to_business
     Business.transaction do
-      tag_params[:tags].each do |tag_param| 
-        unless tag_param[:name].blank?
-          tag = Tag.find_by(name: tag_param[:name].titleize) || Tag.create(tag_param)
-          @business.tags << tag unless @business.tags.map(&:name).include?(tag.name)
+      tag_params[:tags].each do |tag_param|
+        if tag_param[:name].present?
+          tag = create_new_tag_or_find_by tag_param
+          @business.tags << tag unless business_already_has tag
         end
       end
     end
@@ -72,5 +72,13 @@ class BusinessesController < ApplicationController
   def update_business_tags
     @business.tags.clear
     add_tags_to_business
+  end
+
+  def business_already_has(tag)
+    @business.tags.map(&:name).include?(tag.name)
+  end
+
+  def create_new_tag_or_find_by(tag_param)
+    Tag.find_by(name: tag_param[:name].titleize) || Tag.create(tag_param)
   end
 end

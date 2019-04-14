@@ -4,16 +4,16 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new'
   get 'logout', to: 'sessions#destroy'
   get 'register', to: 'users#new', as: :register
-  get 'home', to: 'pages#front', as: :home 
+  get 'home', to: 'pages#front', as: :home
   root to: 'pages#front'
 
-  resources :users, only: [:create, :show, :edit, :update]
-  resources :settings, only: [:edit, :update]
-  resources :sessions, only: [:create]
-  resources :businesses, only: [:index, :show, :create, :edit, :new, :update] do
-    resources :reviews, only: [:show, :create, :edit, :new, :update]
+  resources :users, except: %i[index new destroy]
+  resources :settings, only: %i[edit update]
+  resources :sessions, only: :create
+  resources :businesses, except: :destroy do
+    resources :reviews, except: %i[index destroy]
     get 'search', on: :collection
   end
-  resources :reviews, only: [:index]
-  resources :tags, only: [:show]
+  resources :reviews, only: :index
+  resources :tags, only: :show
 end

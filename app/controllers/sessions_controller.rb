@@ -6,12 +6,12 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
 
-    if user && user.authenticate(params[:password])
+    if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      flash[:success] = "You are logged in"
+      flash[:success] = 'You are logged in'
       redirect_to home_path
     else
-      flash.now[:danger] = "There was a problem with your email and/or password"
+      flash.now[:danger] = 'There was a problem with your email and/or password'
       render :new
     end
   end
@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
   def destroy
     if logged_in?
       session.delete(:user_id)
-      flash[:success] = "You have successfully logged out"
+      flash[:success] = 'You have successfully logged out'
     end
     redirect_to root_path
   end

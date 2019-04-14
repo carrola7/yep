@@ -5,8 +5,11 @@ AllCops:
     - test/**/*
 
 Metrics/LineLength:
-  Max: 80
+  Max: 100
   IgnoredPatterns: ['\A#']
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Documentation:
+    Enabled: false

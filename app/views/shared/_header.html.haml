@@ -5,15 +5,7 @@
         %h1.text-center
           = link_to "Yep", home_path, class: 'text-white yep'
       .col-md-7
-        = form_tag search_businesses_path, method: "get", class: "input-group" do
-          .input-group-append
-            .input-group-text.white-background.no-border.font-weight-bold.rounded-left Find
-          %input.form-control.no-blue-glow.no-border-left(type="text" name="search_name" value="#{search_name}" placeholder="e.g. Business")
-          .input-group-append
-            .input-group-text.white-background.no-border.font-weight-bold Near
-          %input.form-control.no-blue-glow.no-border-left(type="text" name="search_location" value="#{search_location}" placeholder="e.g. Dublin")
-          %button.input-group-append.text-white.bg-custom-red.px-4.rounded-right.no-blue-glow
-            %i.fa.fa-search
+        = render 'shared/search_bar', search_name: search_name, search_location: search_location
       - if logged_in?
         .col-md-3
           .d-flex.justify-content-around

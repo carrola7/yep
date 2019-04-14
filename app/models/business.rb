@@ -1,10 +1,9 @@
-class Business < ActiveRecord::Base
-  validates_presence_of :name, :address_1, :city
+class Business < ApplicationRecord
+  validates :name, :address_1, :city, presence: true
 
-
-  has_many :business_tags, inverse_of: :business
+  has_many :business_tags, inverse_of: :business, dependent: :destroy
   has_many :tags, through: :business_tags
-  has_many :reviews
+  has_many :reviews, dependent: :destroy
   belongs_to :user
 
   def self.search(params)
@@ -26,26 +25,25 @@ class Business < ActiveRecord::Base
   end
 
   def first_review_summary
-    reviews.first&.body && reviews.first&.body[0..50] + "..."
+    reviews.first&.body && reviews.first.body[0..50] + '...'
   end
-
-
 
   def rating
     return 0 if reviews.empty?
+
     ratings = reviews.map(&:rating).map(&:to_i)
     ratings.reduce(&:+) / ratings.size.to_f
   end
 
   def self.search_for_name_and_location(params)
-    Business.where("lower(name) LIKE ? AND lower(city) LIKE ?", "%#{params[:name].downcase}%", "%#{params[:location].downcase}%").order("created_at DESC")
+    Business.where('lower(name) LIKE ? AND lower(city) LIKE ?', "%#{params[:name].downcase}%", "%#{params[:location].downcase}%").order('created_at DESC')
   end
 
   def self.search_for_location(params)
-    Business.where("lower(city) LIKE ? ", "%#{params[:location].downcase}%").order("created_at DESC")
+    Business.where('lower(city) LIKE ?', "%#{params[:location].downcase}%").order('created_at DESC')
   end
 
   def self.search_for_name(params)
-    Business.where("lower(name) LIKE ?", "%#{params[:name].downcase}%").order("created_at DESC")
+    Business.where('lower(name) LIKE ?', "%#{params[:name].downcase}%").order('created_at DESC')
   end
 end

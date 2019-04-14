@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user, only: [:show, :edit, :update]
+  before_action :require_user, only: %i[show edit update]
 
   def new
     redirect_to home_path if logged_in?
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to login_path
     else
-      flash.now[:danger] = "There was a problem with your inputs"
+      flash.now[:danger] = 'There was a problem with your inputs'
       render :new
     end
   end
@@ -36,12 +36,8 @@ class UsersController < ApplicationController
     @user = User.find params[:id]
     if !current_user?(@user)
       access_denied(home_path)
-    elsif @user.update(user_params)
-      flash[:success] = "You have updated your profile successfully."
-      redirect_to user_path(@user)
     else
-      flash.now[:danger] = "There was a problem with your inputs"
-      render :edit
+      update_user
     end
   end
 
@@ -49,5 +45,15 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :first_name, :last_name, :city, :country, :loves, :birthday_d, :birthday_m, :birthday_y)
+  end
+
+  def update_user
+    if @user.update(user_params)
+      flash[:success] = 'You have updated your profile successfully.'
+      redirect_to user_path(@user)
+    else
+      flash.now[:danger] = 'There was a problem with your inputs'
+      render :edit
+    end
   end
 end
