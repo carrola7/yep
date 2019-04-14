@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?, :current_user
 
   def current_user
-    session[:user_id] && User.find(session[:user_id])
+    session[:user_slug] && User.find_by(slug: session[:user_slug])
   end
 
   def logged_in?

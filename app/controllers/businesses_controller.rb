@@ -6,7 +6,7 @@ class BusinessesController < ApplicationController
   end
 
   def show
-    @business = Business.find params[:id]
+    @business = Business.find_by slug: params[:slug]
     @pagy, @reviews = pagy(@business.reviews)
   end
 
@@ -27,11 +27,11 @@ class BusinessesController < ApplicationController
   end
 
   def edit
-    @business = Business.find params[:id]
+    @business = Business.find_by slug: params[:slug]
   end
 
   def update
-    @business = Business.find params[:id]
+    @business = Business.find_by slug: params[:slug]
     if @business.update(business_params)
       update_business_tags if tag_params[:tags]
       flash[:success] = 'Changes saved'

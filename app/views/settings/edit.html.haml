@@ -3,7 +3,7 @@
     .col-md-8
       %h5.text-danger.font-weight-bold Update Your Settings
       %hr
-        = bootstrap_form_tag url: "/settings/#{current_user.id}", method: :put do |form|
+        = bootstrap_form_tag url: "/settings/#{current_user.slug}", method: :put do |form|
           = form.label(:old_password) do
             Current Password
           = form.text_field :old_password, hide_label: true, class: "form-control-sm"

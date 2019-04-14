@@ -15,11 +15,11 @@ describe ReviewsController do
     let(:bob) { Fabricate(:user) }
     let(:some_business) { Fabricate(:business, user: bob) }
     it_behaves_like "requires_signed_in_user" do
-      let(:action) { get :new, params: { business_id: some_business.id } }
+      let(:action) { get :new, params: { business_slug: some_business.slug } }
     end
     before do 
       set_current_user
-      get :new, params: { business_id: some_business.id }
+      get :new, params: { business_slug: some_business.slug }
     end
     it "sets @review" do
       expect(assigns(:review)).to be_instance_of(Review)
@@ -37,7 +37,7 @@ describe ReviewsController do
       bob = Fabricate(:user)
       some_business = Fabricate(:business, user: bob)
       some_review = Fabricate(:review, user: bob, business: some_business)
-      get :show, params: { id: some_review.id, business_id: some_business.id }
+      get :show, params: { slug: some_review.slug, business_slug: some_business.slug }
     end
     it "sets @review" do
       expect(assigns(:review)).to eq(Review.first)
@@ -53,13 +53,13 @@ describe ReviewsController do
         let(:bob) { Fabricate(:user) }
         let(:some_business) { Fabricate(:business, user: bob) }
         let(:some_review) { Fabricate(:review, user: bob, business: some_business) }
-        let(:action) { get :edit, params: { id: Review.first.id, business_id: some_business.id } }
+        let(:action) { get :edit, params: { slug: Review.first.slug, business_slug: some_business.slug } }
       end
       before do
         set_current_user
         some_business = Fabricate(:business, user: current_user)
         some_review = Fabricate(:review, user: current_user, business: some_business)
-        get :edit, params: {business_id: some_business.id, id: some_review.id }
+        get :edit, params: {business_slug: some_business.slug, slug: some_review.slug }
       end
       it "sets @review" do
         expect(assigns(:review)).to eq(Review.first)
@@ -75,7 +75,7 @@ describe ReviewsController do
       let(:some_review) { Fabricate(:review, user: bob, business: some_business) }
       before do
         set_current_user(alice)
-        get :edit, params: { business_id: some_business.id, id: some_review.id }
+        get :edit, params: { business_slug: some_business.slug, slug: some_review.slug }
       end
       it "renders an error message" do
         expect(flash[:danger]).to be_present
@@ -90,7 +90,7 @@ describe ReviewsController do
     it_behaves_like "requires_signed_in_user" do
       let(:bob) { Fabricate(:user) }
       let(:some_business) { Fabricate(:business, user: bob) }
-      let(:action) { post :create, params: { review: Fabricate.attributes_for(:review), business_id: some_business.id } }
+      let(:action) { post :create, params: { review: Fabricate.attributes_for(:review), business_slug: some_business.slug } }
     end
     context "with authenticated users" do
       before { set_current_user }
@@ -98,7 +98,7 @@ describe ReviewsController do
         let(:some_business) { Fabricate(:business, user: current_user) }
         let(:some_review) { Fabricate.attributes_for(:review, business: some_business) }
         before do
-          post :create, params: { review: some_review, business_id: some_business.id }
+          post :create, params: { review: some_review, business_slug: some_business.slug }
         end
         it "creates a new review" do
           expect(Review.count).to eq 1
@@ -117,7 +117,7 @@ describe ReviewsController do
         let(:some_review) { Fabricate.attributes_for(:review, rating: nil, user: current_user) }
         let(:some_business) { Fabricate(:business, user: current_user) }
         before do
-          post :create, params: { review: some_review, business_id: some_business.id }
+          post :create, params: { review: some_review, business_slug: some_business.slug }
         end
         it "does not create a new review" do
           expect(Review.count).to eq(0)
@@ -145,7 +145,7 @@ describe ReviewsController do
       it_behaves_like "requires_signed_in_user" do
         let(:bob) { Fabricate(:user) }
         let(:some_business) { Fabricate(:business, user: bob) }
-        let(:action) { put :update, params: {id: 1, review: Fabricate.attributes_for(:review), business_id: some_business.id } }
+        let(:action) { put :update, params: {slug: 1, review: Fabricate.attributes_for(:review), business_slug: some_business.slug } }
       end
     end
     context "with user signed in" do
@@ -156,7 +156,7 @@ describe ReviewsController do
         let(:another_review) { Fabricate.attributes_for(:review) }
         before do
           set_current_user(bob)
-          put :update, params: { review: another_review, id: some_review.id, business_id: some_business.id }
+          put :update, params: { review: another_review, slug: some_review.slug, business_slug: some_business.slug }
         end
         it "amends a review" do
           expect(Review.first.body).to eq(another_review[:body])
@@ -171,7 +171,7 @@ describe ReviewsController do
       context "with invalid inputs" do
         before do
           set_current_user(bob)
-          put :update, params: { review: { rating: nil}, id: some_review.id, business_id: some_business.id }
+          put :update, params: { review: { rating: nil}, slug: some_review.slug, business_slug: some_business.slug }
         end
         it "displays a flash error message" do
           expect(flash[:danger]).to be_present
@@ -187,7 +187,7 @@ describe ReviewsController do
         let(:another_review) { Fabricate.attributes_for(:review) }
         before do
           set_current_user
-          put :update, params: { review: another_review, id: some_review.id, business_id: some_business.id }
+          put :update, params: { review: another_review, slug: some_review.slug, business_slug: some_business.slug }
         end
         it "doesn't change the review" do
           expect(Review.first.body).to eq(some_review.body)

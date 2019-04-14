@@ -21,14 +21,14 @@ end
 
 def set_current_user(user = nil)
   bob = user ? user : Fabricate(:user)
-  session[:user_id] = bob.id
+  session[:user_slug] = bob.slug
 end
 
 def clear_current_user
-  session[:user_id] = nil
+  session[:user_slug] = nil
 end
 
 def current_user
-  User.find(session[:user_id])
+  User.find_by(slug: session[:user_slug])
 end
 

@@ -3,7 +3,7 @@ class SettingsController < ApplicationController
   before_action :require_signed_in_user, only: :edit
 
   def update
-    @user ||= User.find params[:id]
+    @user ||= User.find_by slug: params[:slug]
     if @user.authenticate(old_password)
       update_password
     else
@@ -17,7 +17,7 @@ class SettingsController < ApplicationController
   private
 
   def require_signed_in_user
-    @user ||= User.find params[:id]
+    @user ||= User.find_by slug: params[:slug]
     redirect_to home_path unless @user == current_user
   end
 

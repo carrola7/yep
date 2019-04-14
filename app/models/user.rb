@@ -1,6 +1,10 @@
 class User < ApplicationRecord
+  include Sluggable
+  
   has_many :reviews, dependent: :destroy
   has_many :businesses, dependent: :nullify
+
+  after_create :generate_slug
 
   has_secure_password
 

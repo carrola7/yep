@@ -20,15 +20,15 @@ describe BusinessesController do
       some_business.save
     end
     it "sets @business" do
-      get :show, params: { id: some_business.id }
+      get :show, params: { slug: some_business.slug }
       expect(assigns(:business)).to eq(some_business)
     end
     it "sets @reviews" do
-      get :show, params: { id: some_business.id }
+      get :show, params: { slug: some_business.slug }
       expect(assigns(:reviews)).to eq(some_business.reviews.first 10)
     end
     it "renders the show template" do 
-      get :show, params: { id: some_business.id }
+      get :show, params: { slug: some_business.slug }
       expect(response).to render_template :show
     end 
   end
@@ -46,7 +46,7 @@ describe BusinessesController do
 
   describe "GET edit" do
     it_behaves_like "requires_signed_in_user" do
-      let(:action) { get :edit, params: { id: 1} }
+      let(:action) { get :edit, params: { slug: 1} }
     end
     context "with authenticated user" do
       before do
@@ -54,11 +54,11 @@ describe BusinessesController do
         post :create, params: { business: Fabricate.attributes_for(:business)}
       end
       it "sets @business" do
-        get :edit, params: { id: Business.first.id }
+        get :edit, params: { slug: Business.first.slug }
         expect(assigns(:business)).to eq(Business.first)
       end
       it "renders the :edit page" do
-        get :edit, params: { id: Business.first.id }
+        get :edit, params: { slug: Business.first.slug }
         expect(response).to render_template :edit
       end
     end
@@ -71,7 +71,7 @@ describe BusinessesController do
         post :create, params: { business: Fabricate.attributes_for(:business) }
       end
       it_behaves_like "requires_signed_in_user" do
-        let(:action) { put :update, params: { id: Business.first.id, business: Fabricate.attributes_for(:business)}}
+        let(:action) { put :update, params: { slug: Business.first.slug, business: Fabricate.attributes_for(:business)}}
       end
     end
     context "with user signed in" do
@@ -82,17 +82,17 @@ describe BusinessesController do
         end
         it "amends a business" do
           some_other_business = Fabricate.attributes_for(:business)
-          put :update, params: {id: Business.first.id, business: some_other_business}
+          put :update, params: {slug: Business.first.slug, business: some_other_business}
           expect(Business.first.name).to eq(some_other_business[:name])
         end
         it "redirects to the show business page" do
           some_other_business = Fabricate.attributes_for(:business)
-          put :update, params: {id: Business.first.id, business: some_other_business}
+          put :update, params: {slug: Business.first.slug, business: some_other_business}
           expect(response).to redirect_to business_path(Business.first)
         end
         it "displays a flash message" do
           some_other_business = Fabricate.attributes_for(:business)
-          put :update, params: {id: Business.first.id, business: some_other_business}
+          put :update, params: {slug: Business.first.slug, business: some_other_business}
           expect(flash[:success]).to eq("Changes saved")
         end
       end
@@ -107,7 +107,7 @@ describe BusinessesController do
         it "updates the business' tag" do
           new_tag = Fabricate.attributes_for(:tag)
           business_params[:tags] = [new_tag]
-          put :update, params: { id: Business.first.id, business: business_params }
+          put :update, params: { slug: Business.first.slug, business: business_params }
           expect(Business.first.tags.first.name).to eq(new_tag[:name].titleize)
         end
       end
@@ -125,7 +125,7 @@ describe BusinessesController do
         it "updates the business' tags" do
           new_tags = Array.new(3).map { Fabricate.attributes_for(:tag) }
 
-          put :update, params: { id: Business.first.id, :business => {tags: new_tags} }
+          put :update, params: { slug: Business.first.slug, :business => {tags: new_tags} }
           expect(new_tags.map{|n| n[:name]}).to include(new_tags.first[:name])
         end
       end
@@ -136,20 +136,20 @@ describe BusinessesController do
           post :create, params: { business: Fabricate.attributes_for(:business) }
         end
         it "displays a flash[:danger] message" do
-          put :update, params: {id: Business.first.id, business: { name: nil }}
+          put :update, params: {slug: Business.first.slug, business: { name: nil }}
           expect(flash[:danger]).to be_present
         end
         it "sets @business" do
-          put :update, params: {id: Business.first.id, business: { name: nil }}
+          put :update, params: {slug: Business.first.slug, business: { name: nil }}
           expect(assigns(:business)).to eq(Business.first)
         end
         it "renders the :edit template" do
-          put :update, params: {id: Business.first.id, business: { name: nil }}
+          put :update, params: {slug: Business.first.slug, business: { name: nil }}
           expect(response).to render_template(:edit)
         end
         it "doesn't update the tags" do
-          put :update, params: { id: Business.first.id, business: { tags: [{ name: tag.name}] } }
-          put :update, params: { id: Business.first.id, business: { name: nil, tags: [{ name: "foo"} ] } }
+          put :update, params: { slug: Business.first.slug, business: { tags: [{ name: tag.name}] } }
+          put :update, params: { slug: Business.first.slug, business: { name: nil, tags: [{ name: "foo"} ] } }
           expect(Business.first.tags.map(&:name)).not_to include("foo")
         end
       end

@@ -7,11 +7,11 @@ class ReviewsController < ApplicationController
 
   def new
     @review = Review.new
-    @review.business = Business.find(params[:business_id])
+    @review.business = Business.find_by slug: params[:business_slug]
   end
 
   def edit
-    @review = Review.find params[:id]
+    @review = Review.find_by slug: params[:slug]
     if !current_user?(@review.user)
       access_denied(reviews_path)
     else
@@ -20,17 +20,17 @@ class ReviewsController < ApplicationController
   end
 
   def show
-    @review = Review.find params[:id]
+    @review = Review.find_by slug: params[:slug]
   end
 
   def create
     @review = Review.new(review_params.merge(user: current_user))
-    @review.business = Business.find(params[:business_id])
+    @review.business = Business.find_by slug: params[:business_slug]
     save_review
   end
 
   def update
-    @review = Review.find params[:id]
+    @review = Review.find_by slug: params[:slug]
     if !current_user?(@review.user)
       access_denied(reviews_path)
     else
@@ -41,7 +41,7 @@ class ReviewsController < ApplicationController
   private
 
   def review_params
-    params.require(:review).permit(:rating, :body, :business_id)
+    params.require(:review).permit(:rating, :body, :business_slug)
   end
 
   def update_review
@@ -57,7 +57,7 @@ class ReviewsController < ApplicationController
   def save_review
     if @review.save
       flash[:success] = 'Congratulations, you have added a new review!'
-      redirect_to business_path(params[:business_id])
+      redirect_to business_path(params[:business_slug])
     else
       flash.now[:danger] = 'There was an error with your inputs'
       render :new

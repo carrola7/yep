@@ -11,7 +11,7 @@ describe SessionsController do
     
     context "when user is logged in" do
       before do
-        session[:user_id] = Fabricate(:user).id
+        session[:user_slug] = Fabricate(:user).slug
       end
       it "redirects to the home path" do
         get :new
@@ -26,8 +26,8 @@ describe SessionsController do
       before do
         post :create, params: { email: user.email, password: user.password }
       end
-      it "sets the session user_id to the user's id" do
-        expect(session[:user_id]).to eq(user.id)
+      it "sets the session user_slug to the user's slug" do
+        expect(session[:user_slug]).to eq(user.slug)
       end
       it { is_expected.to respond_with 302}
     end
@@ -51,9 +51,9 @@ describe SessionsController do
       before do
         post :create, params: { email: bob.email, password: bob.password }
       end
-      it "deletes the user_id from the session" do
+      it "deletes the user_slug from the session" do
         get :destroy
-        expect(session[:user_id]).to be_nil
+        expect(session[:user_slug]).to be_nil
       end
       it "sets the flash message" do
         get :destroy

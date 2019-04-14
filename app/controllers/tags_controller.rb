@@ -1,6 +1,6 @@
 class TagsController < BusinessesController
   def show
-    @tag = Tag.find params[:id]
+    @tag = Tag.find_by slug: params[:slug]
     @pagy, @businesses = pagy(@tag.businesses)
   end
 end

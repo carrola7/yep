@@ -7,13 +7,13 @@ Rails.application.routes.draw do
   get 'home', to: 'pages#front', as: :home
   root to: 'pages#front'
 
-  resources :users, except: %i[index new destroy]
-  resources :settings, only: %i[edit update]
+  resources :users, param: :slug, except: %i[index new destroy]
+  resources :settings, param: :slug, only: %i[edit update]
   resources :sessions, only: :create
-  resources :businesses, except: :destroy do
-    resources :reviews, except: %i[index destroy]
+  resources :businesses, param: :slug, except: :destroy do
+    resources :reviews, param: :slug, except: %i[index destroy]
     get 'search', on: :collection
   end
   resources :reviews, only: :index
-  resources :tags, only: :show
+  resources :tags, param: :slug, only: :show
 end

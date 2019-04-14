@@ -11,7 +11,7 @@ describe TagsController do
         business.save
       end
       2.times { Fabricate(:business, user: bob) }
-      get :show, params: { id: tag.id}
+      get :show, params: { slug: tag.slug}
     end
     it "sets @businesses" do
       expect(assigns(:businesses)).to be_present

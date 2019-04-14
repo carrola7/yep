@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome, #{@user.first_name}"
-      session[:user_id] = @user.id
+      session[:user_slug] = @user.slug
       redirect_to login_path
     else
       flash.now[:danger] = 'There was a problem with your inputs'
@@ -19,12 +19,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find params[:id]
+    @user = User.find_by(slug: params[:slug])
     @pagy, @reviews = pagy(@user.reviews)
   end
 
   def edit
-    @user = User.find params[:id]
+    @user = User.find_by slug: params[:slug]
     if !current_user?(@user)
       access_denied(home_path)
     else
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find params[:id]
+    @user = User.find_by slug: params[:slug]
     if !current_user?(@user)
       access_denied(home_path)
     else

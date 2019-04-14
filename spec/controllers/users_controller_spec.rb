@@ -9,7 +9,7 @@ describe UsersController do
   end
 
   describe "POST create" do
-    context "with valid input" do
+    context "with valslug input" do
       before do
         post :create, params: { user: Fabricate.attributes_for(:user) }
       end
@@ -22,7 +22,7 @@ describe UsersController do
       end
     end
 
-    context "with invalid input" do
+    context "with invalslug input" do
       before do
         post :create, params: { user: Fabricate.attributes_for(:user, password: "") }
       end
@@ -44,12 +44,12 @@ describe UsersController do
   describe "GET show" do
     it_behaves_like "requires_signed_in_user" do
       let(:bob) { Fabricate(:user) }
-      let(:action) { get :show, params: { id: bob.id }}
+      let(:action) { get :show, params: { slug: bob.slug }}
     end
     let(:bob) { Fabricate(:user) }
     before do
       set_current_user(bob)
-      get :show, params: { id: bob.id }
+      get :show, params: { slug: bob.slug }
     end
     it "assigns @user" do
       expect(assigns(:user)).to eq(bob)
@@ -62,13 +62,13 @@ describe UsersController do
   describe "GET edit" do
     it_behaves_like "requires_signed_in_user" do
       let(:bob) { Fabricate(:user) }
-      let(:action) { get :edit, params: { id: bob.id }}
+      let(:action) { get :edit, params: { slug: bob.slug }}
     end
     context "with current user accessing their own profile" do
       let(:bob) { Fabricate(:user) }
       before do
         set_current_user(bob)
-        get :edit, params: { id: bob.id }
+        get :edit, params: { slug: bob.slug }
       end
       it "assigns @user" do
         expect(assigns(:user)).to eq(bob)
@@ -82,7 +82,7 @@ describe UsersController do
       let(:alice) { Fabricate(:user) }
       before do
         set_current_user(bob)
-        get :edit, params: { id: alice.id }
+        get :edit, params: { slug: alice.slug }
       end
       it "displays a flash message" do
         expect(flash[:danger]).to be_present
@@ -96,15 +96,15 @@ describe UsersController do
   describe "PUT update" do
     it_behaves_like "requires_signed_in_user" do
       let(:bob) { Fabricate(:user) }
-      let(:action) { put :update, params: { id: bob.id, user: { city: Fabricate.attributes_for(:user)[:city] }}}
+      let(:action) { put :update, params: { slug: bob.slug, user: { city: Fabricate.attributes_for(:user)[:city] }}}
     end
     context "with current user updating their own profile" do
       let(:bob) { Fabricate(:user) }
       let(:city) { Fabricate.attributes_for(:user)[:city] }
-      context "with valid inputs" do
+      context "with valslug inputs" do
         before do
           set_current_user(bob)
-          put :update, params: { id: bob.id, user: { city: city}}
+          put :update, params: { slug: bob.slug, user: { city: city}}
         end
         it "saves the changes" do
           expect(User.first.city).to eq(city)
@@ -116,10 +116,10 @@ describe UsersController do
           expect(response).to redirect_to user_path(bob)
         end
       end
-      context "with invalid inputs" do
+      context "with invalslug inputs" do
         before do
           set_current_user(bob)
-          put :update, params: { id: bob.id, user: { email: nil}}
+          put :update, params: { slug: bob.slug, user: { email: nil}}
         end
         it "does not save the changes" do
           expect(User.first.city).not_to be_nil
@@ -141,7 +141,7 @@ describe UsersController do
       let(:city) { Fabricate.attributes_for(:user)[:city] }
       before do
         set_current_user(bob)
-        put :update, params: { id: alice.id, user: { city: city}}
+        put :update, params: { slug: alice.slug, user: { city: city}}
       end
       it "displays a flash message" do
         expect(flash[:danger]).to be_present

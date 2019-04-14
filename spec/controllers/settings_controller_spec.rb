@@ -4,14 +4,14 @@ describe SettingsController do
   describe "GET edit" do
     context "when user is not logged in" do
       it_behaves_like "requires_signed_in_user" do
-        let(:action) { get :edit, params: { id: Fabricate(:user).id } }
+        let(:action) { get :edit, params: { slug: Fabricate(:user).slug } }
       end
     end
     context "when user logged in" do
       it "renders the edit page" do
         bob = Fabricate(:user)
         set_current_user(bob)
-        get :edit, params: { id: bob.id }
+        get :edit, params: { slug: bob.slug }
         expect(response).to render_template(:edit)
       end
     end
@@ -20,7 +20,7 @@ describe SettingsController do
         bob = Fabricate(:user)
         alice = Fabricate(:user)
         set_current_user(bob)
-        get :edit, params: { id: alice.id }
+        get :edit, params: { slug: alice.slug }
         expect(response).to redirect_to home_path
       end
     end
@@ -29,7 +29,7 @@ describe SettingsController do
   describe "PUT update" do
     context "when user is not logged in" do
       it_behaves_like "requires_signed_in_user" do
-        let(:action) { put :update, params: { id: Fabricate(:user).id } }
+        let(:action) { put :update, params: { slug: Fabricate(:user).slug } }
       end
     end
     context "when user is logged in" do
@@ -37,7 +37,7 @@ describe SettingsController do
       context "with valid inputs" do
         before do
           set_current_user(bob)
-          put :update, params: {id: bob.id, old_password: "password", password: "new_password", password_confirmation: "new_password"}
+          put :update, params: {slug: bob.slug, old_password: "password", password: "new_password", password_confirmation: "new_password"}
         end
         it "displays a flash message" do
           expect(flash[:success]).to be_present
@@ -51,7 +51,7 @@ describe SettingsController do
         context "with new password mismatch" do
           before do
             set_current_user(bob)
-            put :update, params: {id: bob.id, old_password: "password", password: "new_password", password_confirmation: "new_password1"}
+            put :update, params: {slug: bob.slug, old_password: "password", password: "new_password", password_confirmation: "new_password1"}
           end
           it "displays a flash error message" do
             expect(flash.now[:danger]).to be_present
@@ -63,7 +63,7 @@ describe SettingsController do
         context "with old password incorrect" do
           before do
             set_current_user(bob)
-            put :update, params: {id: bob.id, old_password: "password1", password: "new_password", password_confirmation: "new_password"}
+            put :update, params: {slug: bob.slug, old_password: "password1", password: "new_password", password_confirmation: "new_password"}
           end
           it "displays a flash error message" do
             expect(flash.now[:danger]).to be_present

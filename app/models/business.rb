@@ -1,5 +1,8 @@
 class Business < ApplicationRecord
+  include Sluggable
+
   validates :name, :address_1, :city, presence: true
+  after_create :generate_slug
 
   has_many :business_tags, inverse_of: :business, dependent: :destroy
   has_many :tags, through: :business_tags
