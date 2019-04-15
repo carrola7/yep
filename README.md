@@ -1,24 +1,28 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## What is Yep?
 
-Things you may want to cover:
+Yep is a Yelp clone, built to encompass the core features of Yelp. It has been deployed to Heroku and is available to [here](https://yep-ac.herokuapp.com/) for your viewing pleasure.
 
-* Ruby version
+## Getting Started
 
-* System dependencies
+### Ruby version
 
-* Configuration
+This app has been created using Ruby version 2.6.1
 
-* Database creation
+### Rails Version
 
-* Database initialization
+Rails version 5.2.2
 
-* How to run the test suite
+## Installation
 
-* Services (job queues, cache servers, search engines, etc.)
+`$ git clone https://github.com/carrola7/yep.git`
 
-* Deployment instructions
+## Configuration
 
-* ...
+`$ bundle install`
+`$ rake db:migrate`
+
+## Running tests
+
+`$ rspec`
