@@ -2,7 +2,7 @@
 
 ## What is Yep?
 
-Yep is a Yelp clone, built to encompass the core features of Yelp. It has been deployed to Heroku and is available to [here](https://yep-ac.herokuapp.com/) for your viewing pleasure.
+Yep is a Yelp clone, built to encompass the core features of Yelp. It has been deployed to Heroku and is available [here](https://yep-ac.herokuapp.com/) for your viewing pleasure.
 
 ## Getting Started
 
