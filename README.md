@@ -14,15 +14,18 @@ This app has been created using Ruby version 2.6.1
 
 Rails version 5.2.2
 
-## Installation
+## Download
 
 `$ git clone https://github.com/carrola7/yep.git`
 
-## Configuration
+## Install
 
 `$ bundle install`
+
+## Configure
+
 `$ rake db:migrate`
 
-## Running tests
+## Run tests
 
 `$ rspec`
