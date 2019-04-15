@@ -56,7 +56,7 @@
         .col
           %ul
             - @reviews.each do |review|
-              = render 'reviews/review_card', review: review, display_card_header: true  
+              = render 'reviews/review_card', review: review, display_card_header: true, rating: review.rating 
       .row
         .col
           = render 'shared/pagy', pagy: @pagy
