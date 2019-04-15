@@ -15,7 +15,7 @@
         .col-sm-8
           .card-title
             .mb-2
-              = render 'reviews/star_details', business: review.business
+              = render 'reviews/star_details', rating: rating
               %span.ml-2.text-secondary 
                 = review.created_at.strftime("%d/%m/%Y")
               - if review.user == current_user

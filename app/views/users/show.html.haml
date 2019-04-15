@@ -27,7 +27,7 @@
     .col-md-8.order-2.order-md-1
       %ul
         - @reviews.each do |review|
-          = render 'reviews/review_card', review: review, display_card_header: true
+          = render 'reviews/review_card', review: review, rating: review.rating, display_card_header: true
       = render 'shared/pagy', pagy: @pagy
 
 

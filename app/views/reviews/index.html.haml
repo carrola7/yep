@@ -8,7 +8,7 @@
     .col
       %ul
         - @reviews.each do |review|
-          = render 'review_card', review: review, display_card_header: true  
+          = render 'review_card', review: review, rating: review.rating, display_card_header: true  
   .row
     .col
       = render 'shared/pagy', pagy: @pagy

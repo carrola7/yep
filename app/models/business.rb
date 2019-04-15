@@ -19,14 +19,6 @@ class Business < ApplicationRecord
     end
   end
 
-  def stars
-    rating.floor
-  end
-
-  def half_star?
-    rating.round > rating
-  end
-
   def first_review_summary
     reviews.first&.body && reviews.first.body[0..50] + '...'
   end
