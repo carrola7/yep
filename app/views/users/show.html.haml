@@ -19,7 +19,10 @@
   .row.mt-5
     .col
       %h5.font-weight-bold.text-danger 
-        = "Reviews by #{@user.name}"
+        - if @reviews.count > 0
+          = "Reviews by #{@user.name}"
+        - else
+          =  "#{@user.name} has not written any reviews. Yet."
   .row
     .col-md-8.order-2.order-md-1
       %ul
@@ -45,5 +48,5 @@
             - if @user.loves.blank?
               You haven't told us yet... do tell!
             - else
-              @user.loves
+              = simple_format(@user.loves)
               

@@ -6,12 +6,12 @@
         = bootstrap_form_tag url: "/settings/#{current_user.slug}", method: :put do |form|
           = form.label(:old_password) do
             Current Password
-          = form.text_field :old_password, hide_label: true, class: "form-control-sm"
+          = form.password_field :old_password, hide_label: true, class: "form-control-sm"
           = form.label(:password) do
             New Password
-          = form.text_field :password, hide_label: true, class: "form-control-sm"
+          = form.password_field :password, hide_label: true, class: "form-control-sm"
           = form.label(:password) do
             Verify New Password
-          = form.text_field :password_confirmation, hide_label: true, class: "form-control-sm"
+          = form.password_field :password_confirmation, hide_label: true, class: "form-control-sm"
           = form.submit "Save New Password", class: "btn btn-danger"
           = link_to "Cancel", :back

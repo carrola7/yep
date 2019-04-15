@@ -5,5 +5,5 @@
   .input-group-append
     .input-group-text.white-background.no-border.font-weight-bold Near
   %input.form-control.no-blue-glow.no-border-left(type="text" name="search_location" value="#{search_location}" placeholder="e.g. Dublin")
-  %button.input-group-append.text-white.bg-custom-red.px-4.rounded-right.no-blue-glow
-    %i.fa.fa-search
+  = button_tag '', class: "input-group-append text-white bg-custom-red px-4 rounded-right no-blue-glow d-flex flex-column" do
+    %i.fa.fa-search.align-self-center.mt-2
